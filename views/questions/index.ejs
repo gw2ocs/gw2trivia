@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <% include ../partials/head %>
+  <body>
+    <% include ../partials/header %>
+    <main class="layout-main">
+		<form class="search-form" data-target=".question-container">
+			<div class="row">
+				<input type="text" name="title" placeholder="Recherche dans les questions" aria-label="Recherche"/>
+			</div>
+			<div class="row">
+				<label>
+					Utilisateur :
+					<select name="user_id">
+					</select>
+				</label>
+			</div>
+			<div class="row" hidden>
+				<label>
+					Categories :
+					<select name="categories" multiple>
+					</select>
+				</label>
+			</div>
+			<div class="row">
+				<label>
+					Trier par :
+					<select name="order_by">
+						<option value="CREATED_AT">Date de création</option>
+						<option value="TITLE">Titre</option>
+						<option value="POINTS">Points</option>
+					</select>
+				</label>
+				<select name="direction" aria-label="Sens du tri">
+					<option value="ASC">Croissant</option>
+					<option value="DESC">Décroissant</option>
+				</select>
+			</div>
+			<div class="row">
+				<label>
+					Questions par page :
+					<input type="number" name="limit"/>
+				</label>
+			</div>
+			<div class="row">
+				<label>
+					Validées :
+					<select name="validated">
+						<option value="1">Oui</option>
+						<option value="0">Non</option>
+						<option value="">Indifférent</option>
+					</select>
+				</label>
+			</div>
+			<div class="form-action-group">
+				<button type="submit">Chercher</button>
+			</div>
+		</form>
+      <section class="action-container">
+	      <button type="button" class="action-new-question" title="Ajouter une question" data-target=".question-container"><i class="mdi mdi-plus-thick"></i> question</button>
+      </section>
+      <section class="question-container" data-validated="<%= validated %>" data-limit="10" data-orderby="CREATED_AT_ASC" data-pagination="1" data-searchable="1"></section>
+    </main>
+
+    <% include ../partials/templates %>
+
+    <% include ../partials/footer %>
+  </body>
+</html>

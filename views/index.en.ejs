@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <% include partials/head %>
+  <body>
+    <% include partials/header %>
+    <main class="layout-main">
+      <article class="home-introduction">
+		<section class="home-ogden">
+			<img src="/img/ogden.png" alt="Ogden Stonehealer" title="Ogden Stonehealer" height="400px" width="261px"/>
+		</section>
+		<section class="home-dialogue">
+			<p>Hello there!</p>
+			<p>
+				I'm <a href="https://wiki.guildwars2.com/wiki/Ogden_Stonehealer" rel="nofollow" target="_blank">Ogden Stonehealer</a>, the last dwarf interacting with the surface races of Tyria.<br/>
+				Rather than follow my brothers into battle in the Depths of Tyria, I've stayed on the surface to aid the Durmand Priory and act as a compendium of lore on the Elder Dragons.
+			</p>
+			<p>
+				Thanks to friends of all races, I've currently gathered <span id="question-count"></span> questions.
+			</p>
+			<p>
+			    Join us on <a href="https://discord.gg/YpcMnDY" rel="nofollow" target="_blank">Discord</a>.
+			</p>
+		</section>
+      </article>
+      <article class="article" id="last-questions">
+        <header class="article-header">Dernières questions :</header>
+	<section class="question-container" data-validated="1" data-limit="3" data-orderby="CREATED_AT_DESC"></section>
+      </article>
+      <article class="article" id="last-questions-to-validate">
+        <header class="article-header">Dernières suggestions :</header>
+	<section class="question-container" data-validated="0" data-limit="3" data-orderby="CREATED_AT_DESC"></section>
+      </article>
+    </main>
+
+    <script>
+    fetch('/api/graphql', {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: `{
+                  allQuestions(filter: { validated: { isNull: false } }) {
+                    totalCount
+                  }
+                }`
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                const count = data.data.allQuestions.totalCount;
+                document.getElementById('question-count').innerText = count;
+            });
+    </script>
+
+    <% include partials/templates %>
+
+    <% include partials/footer %>
+
+  </body>
+</html>

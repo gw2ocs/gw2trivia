@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<% include ../partials/head %>
+<body>
+<% include ../partials/header %>
+
+<main class="layout-main">
+    <h2>Statistiques des joueurs</h2>
+    <table class="table-stats" id="players-stats">
+        <thead>
+            <tr>
+                <th scope="col" rowspan="2" id="stats-player">Joueur</th>
+                <th scope="col" colspan="2" id="stats-question">Questions</th>
+                <th scope="col" colspan="3" id="stats-points">Points</th>
+            </tr>
+            <tr>
+                <th scope="col" headers="stats-questions" id="stats-questions-created" data-order-by="created" data-direction="desc">postées</th>
+                <th scope="col" headers="stats-questions" id="stats-questions-answered" data-order-by="answered" data-direction="desc">repondues</th>
+                <th scope="col" headers="stats-points" id="stats-points-monthly" data-order-by="monthly" data-direction="desc">mensuels</th>
+                <th scope="col" headers="stats-points" id="stats-points-yearly" data-order-by="yearly" data-direction="desc">annuels</th>
+                <th scope="col" headers="stats-points" id="stats-points-total" data-order-by="total" data-direction="desc">totaux</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</main>
+
+<% include ../partials/templates %>
+
+<template id="player-stats-template">
+    <tr>
+        <th scope="row" headers="stats-player">
+            <a class="user" itemscope itemtype="http://schema.org/Person">
+                <img class="user-avatar" loading="lazy"/>
+                <span class="user-name" itemprop="name"></span>
+            </a>
+        </th>
+        <td headers="stats-questions stats-questions-created"></td>
+        <td headers="stats-questions stats-questions-answered"></td>
+        <td headers="stats-points stats-points-monthly"></td>
+        <td headers="stats-points stats-points-yearly"></td>
+        <td headers="stats-points stats-points-total"></td>
+    </tr>
+</template>
+
+<% include ../partials/footer %>
+
+<script>
+    const player_table = document.querySelector('#players-stats');
+    player_table.querySelectorAll('th[data-order-by]').forEach(el => {
+        el.addEventListener('click', () => {
+            const order_by = el.dataset.orderBy;
+            const asc = el.dataset.direction === 'asc';
+            el.dataset.direction = asc ? 'desc' : 'asc';
+
+            Array.from(player_table.querySelectorAll('tbody tr'))
+                .sort((a, b) => asc ? a.dataset[order_by] - b.dataset[order_by] : b.dataset[order_by] - a.dataset[order_by])
+                .forEach(tr => player_table.querySelector('tbody').appendChild(tr));
+        })
+    })
+
+	fetch('/api/graphql', {
+		method: "post",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			query: `{
+                allUsers {
+                    nodes {
+                        id username discriminator avatarUrl discordId
+                        questionsByUserId { totalCount }
+                    }
+                }
+            }`
+		})
+	})
+		.then(response => response.json())
+		.then(async data => {
+            const users = data.data.allUsers.nodes;
+            const user_by_snowflake = {};
+
+            for (let i = 0, imax = users.length ; i < imax ; i++) {
+                user_by_snowflake[users[i].discordId] = users[i];
+                users[i]['answered'] = 0;
+            }
+
+            await Promise.all([
+                fetch('/api/graphql', {
+                    method: "post",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: `{
+                            allStats(filter: { userSnowflake: { isNull: false } }) {
+                                nodes { userSnowflake }
+                            }
+                        }`
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        for (let i = 0, imax = data.data.allStats.nodes.length ; i < imax ; i++) {
+                            if (data.data.allStats.nodes[i].userSnowflake in user_by_snowflake) {
+                                user_by_snowflake[data.data.allStats.nodes[i].userSnowflake]['answered']++;
+                            }
+                        }
+                    }),
+            ]);
+
+            const player_line_template = document.querySelector('#player-stats-template');
+            const player_lines_fragment = document.createDocumentFragment();
+            
+            for (let i = 0, imax = users.length ; i < imax ; i++) {
+                const user = users[i];
+                const player_line_node = document.importNode(player_line_template.content, true);
+                const player_line_el = player_line_node.querySelector('tr');
+
+                Object.assign(player_line_el.dataset, {
+                    created: user.questionsByUserId.totalCount,
+                    answered: user.answered,
+                });
+
+                player_line_el.querySelector('.user-name').textContent = `${user.username}#${user.discriminator}`;
+                Object.assign(player_line_el.querySelector('.user-avatar'), {
+                    src: `${user.avatarUrl}?size=128`,
+                    alt: `${user.username}#${user.discriminator}`,
+                });
+                player_line_el.querySelector('.user').href = `/questions?user_id=${user.id}`;
+                player_line_el.querySelector('td[headers*="stats-questions-created"]').textContent = user.questionsByUserId.totalCount;
+                player_line_el.querySelector('td[headers*="stats-questions-answered"]').textContent = user.answered;
+                player_lines_fragment.appendChild(player_line_el);
+            }
+
+            player_table.querySelector('tbody').appendChild(player_lines_fragment);
+            player_table.querySelector('th[data-order-by="created"]').click();
+		});
+</script>
+
+</body>
+</html>

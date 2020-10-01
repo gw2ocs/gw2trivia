@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <ShortName>GW2Trivia</ShortName>
+    <LongName>GW2Trivia Questions</LongName>
+    <Description>Rechercher parmi les questions.</Description>
+    <Tags>gw2trivia gw2 guildwars2 guildwars question</Tags>
+    <Developer>Pandraghon#3647</Developer>
+    <Contact>pandraghon@outlook.com</Contact>
+    <Language>fr</Language>
+    <Image height="40" width="40" type="image/x-icon">https://gw2trivia.com/favicon.ico</Image>
+    <Image height="40" width="40" type="image/png">https://gw2trivia.com/favicon.png</Image>
+    <Url type="text/html"
+         template="https://gw2trivia.com/questions?title={searchTerms}" />
+    <Query role="example" searchTerms="quaggan" />
+</OpenSearchDescription>

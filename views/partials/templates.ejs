@@ -1,0 +1,377 @@
+<template id="pagination-template">
+	<div class="pagination-container">
+		<span class="pagination-count">
+			Page <span class="pagination-current-page"></span> / <span class="pagination-last-page"></span>
+		</span>
+		<nav class="pagination-nav">
+			<ul>
+				<li><button type="button" class="pagination-prev" disabled>Prev</button></li>
+				<li><button type="button" class="pagination-next" disabled>Next</button></li>
+			</ul>
+		</nav>
+	</div>
+</template>
+
+<template id="no-questions">
+	<p class="no-questions">Aucune question n'a été trouvée avec ces critères.</p>
+</template>
+
+<template id="markdown-editor-template">
+	<div class="editor-container">
+		<div class="editor-actions">
+			<button type="button" title="Gras" class="editor-action-bold" data-markdown-tag data-start="**"><i class="mdi mdi-format-bold"></i></button>
+			<button type="button" title="Italique" class="editor-action-italic" data-markdown-tag data-start="*"><i class="mdi mdi-format-italic"></i></button>
+			<button type="button" title="Barré" class="editor-action-strikethrough" data-markdown-tag data-start="~~"><i class="mdi mdi-format-strikethrough"></i></button>
+			<button type="button" title="Surligné" class="editor-action-highlight" data-markdown-tag data-start="=="><i class="mdi mdi-format-color-highlight"></i></button>
+			<button type="button" title="Titre" class="editor-action-header" data-function="addHeader"><i class="mdi mdi-format-header-pound"></i></button>
+			<button type="button" title="" class="editor-action-subscript" data-markdown-tag data-start="~"><i class="mdi mdi-format-subscript"></i></button>
+			<button type="button" title="Exposant" class="editor-action-superscript" data-markdown-tag data-start="^"><i class="mdi mdi-format-superscript"></i></button>
+			<button type="button" title="Liste non ordonnée" class="editor-action-list-bulleted" data-markdown-line="- "><i class="mdi mdi-format-list-bulleted"></i></button>
+			<button type="button" title="Liste ordonnée" class="editor-action-list-numbered" data-markdown-line="1. "><i class="mdi mdi-format-list-numbered"></i></button>
+			<button type="button" title="Liste à cocher" class="editor-action-list-checkbox" data-markdown-line="- [ ] "><i class="mdi mdi-format-list-checkbox"></i></button>
+			<button type="button" title="Citation" class="editor-action-quotation" data-markdown-line="&gt; "><i class="mdi mdi-format-quote-open"></i></button>
+			<button type="button" title="Code" class="editor-action-code" data-markdown-tag data-start="`"><i class="mdi mdi-code-tags"></i></button>
+			<button type="button" title="Ligne" class="editor-action-line" data-markdown-singleline="---" data-newline><i class="mdi mdi-minus"></i></button>
+			<button type="button" title="Note de pied de page" class="editor-action-footnote" data-function="addFootnote"><i class="mdi mdi-format-section"></i></button>
+			<button type="button" title="Lien" class="editor-action-link" data-function="addLink"><i class="mdi mdi-link"></i></button>
+			<button type="button" title="Image" class="editor-action-image" data-function="addImage"><i class="mdi mdi-image-outline"></i></button>
+		</div>
+		<textarea class="editor-content">
+# Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+
+Curabitur **congue** dui est, ac *varius* neque facilisis in. 
+Mauris ~~nec~~ eros lacus. Ut ==efficitur== mollis dui vel placerat. 
+Etiam ut velit eget erat auctor varius vel auctor libero. 
+
+## Aliquam ipsum enim, accumsan ac interdum ut, dignissim vel elit. 
+
+Morbi nec lacinia magna. 
+
+
+## Sed sodales urna a mauris blandit rutrum. 
+
+Integer vestibulum laoreet leo, vel rutrum ex ultricies vitae.		
+		</textarea>
+		<details>
+			<summary>Aperçu</summary>
+			<div class="editor-preview"></div>
+		</details>
+		
+	</div>
+</template>
+
+<template id="modal-template">
+	<div class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title"></h2>
+					<button type="button" class="close" data-close aria-label="Fermer">
+						<i class="mdi mdi-close" aria-hidden="true"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-close>Annuler</button>
+					<button type="button" data-validate>Valider</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template id="link-modal-template">
+	<form>
+		<div class="input-group input-full">
+			<label>
+				Lien
+				<input type="text" name="link" required/>
+			</label>
+		</div>
+		<div class="input-group input-full">
+			<label>
+				Texte du lien
+				<input type="text" name="text"/>
+			</label>
+		</div>
+		<input type="submit" hidden/>
+	</form>
+</template>
+
+<template id="footnote-modal-template">
+	<form>
+		<div class="input-group input-full">
+			<label>
+				Tag
+				<input type="text" name="tag" required/>
+			</label>
+		</div>
+		<div class="input-group input-full">
+			<label>
+				Note
+				<textarea name="footnote" required></textarea>
+			</label>
+		</div>
+		<input type="submit" hidden/>
+	</form>
+</template>
+
+<template id="source-modal-template">
+	<form>
+		<div class="input-group input-full">
+			<label>
+				Description
+				<input type="text" name="footnote" required/>
+			</label>
+		</div>
+		<div class="input-group input-full">
+			<label>
+				Lien
+				<input type="text" name="url" required/>
+			</label>
+		</div>
+		<input type="submit" hidden/>
+	</form>
+</template>
+
+<template id="image-modal-template">
+	<form>
+		<div class="input-group input-full">
+			<label>
+				Depuis un fichier
+				<input type="file" name="file"/>
+			</label>
+		</div>
+		<div class="input-group input-full">
+			<label>
+				Adresse de l'image
+				<input type="text" name="url" required/>
+			</label>
+		</div>
+		<div class="input-group input-full">
+			<label>
+				Titre
+				<input type="text" name="alt" required/>
+			</label>
+		</div>
+		<input type="submit" hidden/>
+	</form>
+</template>
+
+<template id="question-template">
+	<article class="question">
+		<details class="question-display" itemscope itemtype="http://schema.org/Question">
+			<summary class="question-header">
+				<span class="question-points secondary-data"><i class="gw2-laurel" title="points"></i></span>
+				<div class="question-header-left">
+					<span class="question-title" itemprop="name"></span>
+					<span class="secondary-data">
+						<time class="question-creation-date" itemprop="dateCreated"></time>
+					</span>
+					<span class="secondary-data">
+						<span class="question-tips-count"><i class="mdi mdi-magnify" title="Indices"></i></span>
+						<span class="question-has-image" hidden>- <i class="mdi mdi-image-outline" title="Avec image"></i></span>
+						<strong class="question-spoil" hidden>- <i class="mdi mdi-alert-circle-outline"></i> Risque de spoil</strong>
+						<ul class="question-categories question-has-categories" hidden></ul>
+					</span>
+				</div>
+				<span class="question-author user" itemprop="author" itemscope itemtype="http://schema.org/Person">
+				  <img class="user-avatar" loading="lazy"/>
+				  <span class="user-name" itemprop="name"></span>
+				</span>
+			</summary>
+			<section class="question-details">
+			  <div class="secondary-data">
+				Ajoutée par
+				<a class="question-author user">
+				  <img class="user-avatar" loading="lazy"/>
+				  <span class="user-name"></span>
+				</a>
+				le
+				<a class="question-link" itemprop="url"><time class="question-creation-date"></time></a>
+				<ul class="question-categories question-has-categories" hidden></ul>
+			  </div>
+			  <div class="question-images question-has-image"></div>
+			  <div class="question-tips-container">
+				  <div class="question-tips-header">Indices</div>
+				  <div class="question-tips">
+					  <div class="question-tips-alt" hidden>Cette question n'a pas d'indice.</div>
+				  </div>
+			  </div>
+			  <div class="question-answers-container">
+				  <div class="question-answers-header">Réponses</div>
+				  <div class="question-answers-action">
+					  <button type="button" class="action-show-answers" title="Afficher les réponses" disabled><i class="mdi mdi-eye-outline"></i> réponses</button>
+					  <div class="question-tips-action-alt">Vous n'avez pas les droits pour lire les réponses de cette question.</div>
+				  </div>
+				  <div class="question-answers" hidden></div>
+			  </div>
+			  <div class="question-notes-container" hidden>
+				  <div class="question-notes-header">Sources</div>
+				  <div class="question-notes">
+					  <div class="question-notes-alt">Cette question n'a pas de sources.</div>
+				  </div>
+			  </div>
+			</section>
+			<section class="question-actions action-group">
+				<button type="button" class="action-edit" title="Modifier la question" aria-label="Modifier la question" hidden><i class="mdi mdi-square-edit-outline" aria-hidden="true"></i></button>
+				<button type="button" class="action-delete" title="Supprimer la question" aria-label="Supprimer la question" hidden><i class="mdi mdi-trash-can-outline" aria-hidden="true"></i></button>
+				<button type="button" class="action-validate" title="Valider la question" aria-label="Valider la question" hidden><i class="mdi mdi-check-bold" aria-hidden="true"></i></button>
+			</section>
+		</details>
+
+		<form action="#" class="question-edit">
+			<div class="input-group input-full">
+				<input type="text" name="title" class="input-title" placeholder="Titre" required/>
+			</div>
+			<div class="input-group">
+				<label class="label-points">
+					Points
+					<input type="number" name="points" class="input-points" min="0" style="width:32px;" required/>
+				</label>
+			</div>
+			<div class="input-group">
+				<label class="label-spoil">
+					<input type="checkbox" class="input-spoil" name="spoil"/>
+					Cette question est suceptible de spoiler
+				</label>
+			</div>
+			<div class="input-group">
+				<label class="label-tips">
+					Indices
+					<div class="help secondary-data">
+						Les indices peuvent être un mot, un nom, une phrase ou un lien ... Ils seront affichés lorsque le temps commencera à manquer.
+					</div>
+					<ul class="input-list"></ul>
+				</label>
+				<button type="button" class="action-new-tip" title="Ajouter un indice"><i class="mdi mdi-plus-thick"></i> indice</button>
+			</div>
+			<div class="input-group">
+				<label class="label-answers">
+					Réponses
+					<div class="help secondary-data">
+						Chaque ligne représente une réponse possible à la question. Lorsqu'une personne donne une réponse validant les conditions d'une des lignes, il gagne le quiz.<br/>
+						Les majuscules, accents et tirets seront ignorés.
+					</div>
+					<ul class="input-list"></ul>
+				</label>
+				<button type="button" class="action-new-answer" title="Ajouter une réponse"><i class="mdi mdi-plus-thick"></i> réponse</button>
+			</div>
+			<div class="input-group">
+				<label class="label-categories">
+					Categories
+					<ul class="input-list"></ul>
+				</label>
+				<button type="button" class="action-search-category" title="Chercher une catégorie"><i class="mdi mdi-plus-thick"></i> catégorie</button>
+			</div>
+			<div class="input-group">
+				<label class="label-images">
+					Images
+					<ul class="input-list"></ul>
+				</label>
+				<button type="button" class="action-new-image" title="Ajouter une image"><i class="mdi mdi-plus-thick"></i> image</button>
+			</div>
+			<div class="input-group input-full">
+				<label class="label-notes">
+					Sources
+					<div class="help secondary-data">
+						Les sources peuvent être utilisées pour lister les pages internet ou les livres utilisés pour cette question, ou bien juste pour laisser un commentaire pour le validateur.<br/>
+						Elles n'apparaîtront pas sur le Discord.
+					</div>
+					<textarea name="notes" class="input-notes"></textarea>
+				</label>
+			</div>
+			<div class="action-group">
+				<button type="submit" value="Submit" class="action-submit">Sauvegarder</button>
+				<button type="button" value="Cancel" class="action-cancel">Annuler</button>
+			</div>
+		</form>
+	</article>
+</template>
+
+<template id="article-edit-template">
+	<article class="article layout-block">
+		<form>
+			<div class="input-group input-full">
+				<label>
+					Titre
+					<input type="text" name="title" id="title"/>
+				</label>
+			</div>
+			<div class="input-group">
+				<label>
+					Couverture
+					<input type="file" name="image" data-id="new"/>
+				</label>
+			</div>
+			<div class="input-group">
+				<label class="label-categories">
+					Categories
+					<ul class="input-list"></ul>
+				</label>
+				<button type="button" class="action-search-category" title="Chercher une catégorie"><i class="mdi mdi-plus-thick"></i> catégorie</button>
+			</div>
+			<div class="input-group input-full">
+				<label>
+					Description
+					<div class="help secondary-data">
+						La description sera le texte visible depuis la liste des articles et sera postée sur Discord.
+					</div>
+					<textarea name="description" id="description" rows="5"></textarea>
+				</label>
+			</div>
+			<div class="input-group input-full">
+				<label for="article-content">Contenu</label>
+				<markdown-editor rows="30" id="article-content" name="markdown"></markdown-editor>
+			</div>
+			<div class="action-group">
+				<button type="submit" value="Submit" class="action-submit">Sauvegarder</button>
+			</div>
+		</form>
+	</article>
+</template>
+
+<template id="article-list-template">
+	<article class="article layout-block" itemscope itemtype="http://schema.org/Article">
+		<h2 itemprop="name"><a class="article-title" itemprop="url"></a></h2>
+		<div class="secondary-data">
+			<a class="article-author user" itemprop="author" itemscope itemtype="http://schema.org/Person">
+			  <img class="user-avatar" loading="lazy"/>
+			  <span class="user-name" itemprop="name"></span>
+			</a>
+		</div>
+		<div class="secondary-data">
+			<time class="article-creation-date" itemprop="dateCreated"></time>
+			<ul class="article-categories article-has-categories" hidden></ul>
+		</div>
+		<p class="article-description" itemprop="description"></p>
+	</article>
+</template>
+
+<template id="article-view-template">
+	<article class="article layout-block" itemscope itemtype="http://schema.org/Article">
+		<h2 class="article-title" itemprop="name"></h2>
+		<div class="article-actions">
+			<a class="article-action-edit button" hidden>Editer</a>
+			<a class="article-action-delete button button-danger" hidden>Supprimer</a>
+		</div>
+		<div class="secondary-data">
+			<a class="article-author user" itemprop="author" itemscope itemtype="http://schema.org/Person">
+			  <img class="user-avatar" loading="lazy"/>
+			  <span class="user-name" itemprop="name"></span>
+			</a>
+		</div>
+		<div class="secondary-data">
+			<a class="article-link" itemprop="url"><time class="article-creation-date" itemprop="dateCreated"></time></a>
+			<ul class="article-categories article-has-categories" hidden></ul>
+		  </div>
+		<p class="article-description" itemprop="description"></p>
+		<hr/>
+		<div class="article-content" itemprop="articleBody"></div>
+		<hr/>
+		<p class="secondary-data">
+			Vous pouvez échanger à propos de cet article sur le salon #discussion du <a href="https://discord.gg/YpcMnDY" rel="noreferrer" target="_blank">Discord de Questions pour un Quaggan.</a>
+		</p>
+	</article>
+</template>

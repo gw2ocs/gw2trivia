@@ -1,0 +1,32 @@
+/* TEAM */
+	Pandraghon#3647
+	Twitter: @pandraghon
+	Location: Mulhouse, France
+
+/* THANKS */
+	Beta Tester: Babylon#5800
+	Location: France
+
+	Beta Tester: eperc#8557
+	Location: Viet Nam
+
+	Beta Tester: Faucon#3160
+	Location: France
+
+	Beta Tester: blountède#9541
+	Location: France
+
+	Beta Tester: Mac Lewis#9520
+	Location: France
+
+	Beta Tester: Irecnus#1814
+	Location: France
+
+	Beta Tester: Aube DuKaos#5852
+	Location: France
+
+/* SITE */
+	Last update: today or yesterday, probably
+	Language: French
+	Doctype: HTML5
+	IDE: IntelliJ IDEA, Neovim, GIMP

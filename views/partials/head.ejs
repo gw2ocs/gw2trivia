@@ -1,0 +1,68 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="64x64" href="/img/icon_64.png" />
+    <!-- Apple/Safari icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/icon_180.png">
+    <!-- Square Windows tiles -->
+    <meta name="msapplication-square70x70logo" content="/img/icon_70.png">
+    <meta name="msapplication-square150x150logo" content="/img/icon_150.png">
+    <meta name="msapplication-square310x310logo" content="/img/icon_310.png">
+    <!-- Rectangular Windows tile -->
+    <meta name="msapplication-wide310x150logo" content="/img/icon_310x150.png">
+    <!-- Windows tile theme color -->
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <link rel="author" href="/humans.txt" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="f8f8ff" />
+    <meta name="description" content="<%= description %>" />
+    <title><%= title + ' - ' + subtitle%><% if (typeof page_title !== 'undefined') { %><%= ' : ' + page_title %><% } %></title>
+
+    <!-- OpenSearch -->
+    <link rel="search" type="application/opensearchdescription+xml" title="GW2Trivia" href="/opensearch.xml" />
+
+    <!-- OpenGraph -->
+    <meta property="og:description" content="<%= description %>" />
+    <meta property="og:determiner" content="" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="<%= title %>" />
+    <% if (typeof page_title !== 'undefined') { %><meta property="og:title" content="<%= page_title %>" /><% } else { %><meta property="og:title" content="<%= subtitle %>" /><% } %>
+    <% if (typeof image !== 'undefined') { %><meta property="og:image" content="<%= image %>" /><% } %>
+    <% if (typeof type !== 'undefined') { %><meta property="og:type" content="<%= type %>" /><% } %>
+    <% if (typeof author !== 'undefined') { %><meta property="article:author" content="<%= author %>" /><% } %>
+    <% if (typeof published_time !== 'undefined') { %><meta property="article:published_time" content="<%= published_time %>" /><% } %>
+    <% if (typeof section !== 'undefined') { %><meta property="article:section" content="<%= section %>" /><% } %>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebSite",
+		"url": "https://gw2trivia.com",
+		"potentialAction": {
+			"@type": "SearchAction",
+			"target": "https://gw2trivia.com/questions?title={search_term_string}",
+			"query-input": "required name=search_term_string"
+		}
+	}
+    </script>
+
+    <link rel="stylesheet" href="/mdi/css/materialdesignicons.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/gw2icon.min.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src="/markdown-it/markdown-it.min.js" defer></script>
+    <script src="/markdown-it-sub/markdown-it-sub.min.js" defer></script>
+    <script src="/markdown-it-sup/markdown-it-sup.min.js" defer></script>
+    <script src="/markdown-it-abbr/markdown-it-abbr.min.js" defer></script>
+    <script src="/markdown-it-mark/markdown-it-mark.min.js" defer></script>
+    <script src="/markdown-it-footnote/markdown-it-footnote.min.js" defer></script>
+    <script src="/markdown-it-task-lists/markdown-it-task-lists.min.js" defer></script>
+    <script src="/js/markdown-it/markdown-it-figure.js" defer></script>
+    <link rel="preload" href="/js/components/QuestionElement.js" as="script" crossorigin="anonymous"/>
+    <link rel="preload" href="/js/components/PaginationElement.js" as="script" crossorigin="anonymous"/>
+    <link rel="preload" href="/js/components/ModalElement.js" as="script" crossorigin="anonymous"/>
+    <link rel="preload" href="/js/components/EditorElement.js" as="script" crossorigin="anonymous"/>
+    <script src="/js/main.js" type="module" defer></script>
+</head>

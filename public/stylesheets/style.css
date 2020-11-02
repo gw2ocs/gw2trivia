@@ -16,6 +16,26 @@
 	--layout-nav-ul-background-color: rgba(248, 284, 255, .25);
 	--modal-content-box-shadow: rgba(0, 0, 0, .075);
 	--article-container-background-color: rgba(255, 255, 255, .35);
+	/* light theme rules for browsers compatibilty */
+	--body-background-color: ghostwhite;
+	--body-color: black;
+	--link-color: #005A7E;
+	--layout-header-color: ghostwhite;
+	--layout-footer-text-shadow: ghostwhite;
+	--layout-footer-link-color: #00415B;
+	--layout-block-background-color: white;
+	--layout-block-border: #ced4da;
+	--secondary-data: dimgray;
+	--table-background-color2: #f9f9ff;
+	--modal-content-background-color: white;
+	--modal-backdrop-background-color: black;
+	--modal-border: #ced4da;
+	--article-container-box-shadow: black;
+	--article-container-text-shadow: 0 0 4px white;
+	--page-figcaption-color: dimgray;
+	--user-avatar-border-color: black;
+	--article-list-background-center: rgba(255, 255, 255, 0.5);
+	--article-list-background-border: rgba(255, 255, 255, 0.85);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,6 +57,8 @@
 		--article-container-text-shadow: none;
 		--page-figcaption-color: #969696;
 		--user-avatar-border-color: ghostwhite;
+		--article-list-background-center: rgba(0, 0, 0, 0.5);
+		--article-list-background-border: rgba(0, 0, 0, 0.85);
 	}
 }
   
@@ -59,6 +81,8 @@
 		--article-container-text-shadow: 0 0 4px white;
 		--page-figcaption-color: dimgray;
 		--user-avatar-border-color: black;
+		--article-list-background50: rgba(255, 255, 255, 0.5);
+		--article-list-background85: rgba(255, 255, 255, 0.85);
 	}
 }
 

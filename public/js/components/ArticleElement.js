@@ -54,7 +54,7 @@ export default class ArticleElement extends HTMLElement {
 			textContent: new Date(this.article.createdAt).toLocaleDateString(window.navigator.language, GW2Trivia.date_format),
 		});
 		if (this.article.imageByImageId) {
-			el.style['background-image'] = `radial-gradient(ellipse closest-side, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.85)), url(/assets/img/${this.article.imageByImageId.id})`;
+			el.style['background-image'] = `radial-gradient(ellipse closest-side, var(--article-list-background-center), var(--article-list-background-border)), url(/assets/img/${this.article.imageByImageId.id})`;
 		}
 		if (this.article.categories.nodes.length) {
 			const category_ul_el = el.querySelectorAll('.article-categories');

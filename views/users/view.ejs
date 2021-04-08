@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <% include ../partials/head %>
+  <body>
+    <% include ../partials/header %>
+    <main class="layout-main">
+      <section class="user-container" data-id="<%= id %>">
+        <article class="user layout-block">
+          <div class="user-card-big">
+            <img class="user-avatar" src="<%= record.avatarUrl %>" alt="<%= record.username %>#<%= record.discriminator %>" width="128" height="128"/>
+            <div class="user-info">
+              <h2 class="user-name"><%= record.username %>#<%= record.discriminator %></h2>
+              <dl>
+                <dt>Questions</dt>
+                <dd class="user-info-questions"><%= record.questionsByUserId.totalCount %></dd>
+                
+                <dt>Articles</dt>
+                <dd class="user-info-articles"><%= record.articlesByUserId.totalCount %></dd>
+                
+                <dt>Succès</dt>
+                <dd class="user-info-achievements"><%= record.achievementsByAchievementsUsersRelUserIdAndAchievementId.totalCount %></dd>
+              </dl>
+            </div>
+          </div>
+          <div class="user-achievements">
+            <% record.achievementsByAchievementsUsersRelUserIdAndAchievementId.nodes.forEach(function(achievement) { %>
+              <div class="achievement">
+                <img src="<%= `https://assets.gw2achievements.com/${encodeURIComponent(achievement.name)}.png?s=completed&i=${achievement.icon}&t=${achievement.theme}` %>" alt="<%= achievement.name %>" title="<%= achievement.description %>" width="318" height="90"/>
+              </div>
+            <% }) %>
+          </div>
+        </article>
+        <article class="user-questions question-container" data-user_id="<%= id %>" data-limit="3" data-orderby="CREATED_AT_DESC" data-pagination="1"></article>
+      </section>
+    </main>
+    <% include ../partials/templates %>
+
+    <% include ../partials/footer %>
+  </body>
+</html>

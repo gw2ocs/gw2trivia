@@ -460,6 +460,7 @@ async function main() {
 	if (current_user) {
 		document.querySelector('#profile-link .user-avatar').src = `${current_user.avatarUrl}?size=128`;
 		document.querySelector('#profile-link .user-name').innerText = `${current_user.username}#${current_user.discriminator}`;
+		document.querySelector('#profile-link #nav-profile').href = `/users/view/${current_user.id}`;
 		document.getElementById('profile-link').hidden = false;
 		document.getElementById('logout-link').hidden = false;
 		document.getElementById('login-link').hidden = true;

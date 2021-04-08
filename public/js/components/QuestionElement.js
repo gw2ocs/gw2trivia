@@ -144,7 +144,7 @@ export default class QuestionElement extends HTMLElement {
 			textContent: new Date(this.question.createdAt).toLocaleDateString(window.navigator.language, date_format),
 		});
 		question_el.querySelector('.question-details .user-name').textContent = `${this.user.username}#${this.user.discriminator}`;
-		question_el.querySelector('.question-details .question-author').href = `/questions?user_id=${this.user.id}`;
+		question_el.querySelector('.question-details .question-author').href = `/users/view/${this.user.id}`;
 		Object.assign(question_el.querySelector('.question-details .user-avatar'), {
 			src: `${this.user.avatarUrl}?size=128`,
 			alt: `${this.user.username}#${this.user.discriminator}`,

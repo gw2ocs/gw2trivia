@@ -30,7 +30,7 @@
 <template id="player-stats-template">
     <tr>
         <th scope="row" headers="stats-player">
-            <a class="user" itemscope itemtype="http://schema.org/Person">
+            <a class="user user-card-small" itemscope itemtype="http://schema.org/Person">
                 <img class="user-avatar" loading="lazy"/>
                 <span class="user-name" itemprop="name"></span>
             </a>
@@ -129,7 +129,7 @@
                     src: `${user.avatarUrl}?size=128`,
                     alt: `${user.username}#${user.discriminator}`,
                 });
-                player_line_el.querySelector('.user').href = `/questions?user_id=${user.id}`;
+                player_line_el.querySelector('.user').href = `/users/view/${user.id}`;
                 player_line_el.querySelector('td[headers*="stats-questions-created"]').textContent = user.questionsByUserId.totalCount;
                 player_line_el.querySelector('td[headers*="stats-questions-answered"]').textContent = user.answered;
                 player_lines_fragment.appendChild(player_line_el);

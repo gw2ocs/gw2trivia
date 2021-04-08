@@ -411,11 +411,12 @@ details summary::-webkit-details-marker {
 	text-overflow: ellipsis;
 }
 
-.user {
+.user,
+.user-card-small {
 	white-space: nowrap;
 }
 
-.user-avatar {
+.user-card-small .user-avatar {
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
@@ -869,6 +870,24 @@ article-container[data-mode=view] li p {
 	max-width: 500px;
 	max-height: 500px;
 	margin: auto;
+}
+
+.user-card-big {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.user-card-big .user-avatar {
+	margin: 0 16px;
+}
+
+.user-achievements {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
 }
 
 @media (max-width: 925px) {

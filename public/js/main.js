@@ -426,7 +426,13 @@ async function main() {
 			figcaption: true,  // <figcaption>alternative text</figcaption>, default: false
 			tabindex: false,   // <figure tabindex="1+n">..., default: false
 			link: true         // <a href="img.png"><img src="img.png"></a>, default: false
-		});
+		})
+		.use(window.markdownItAnchor, { 
+			permalink: window.markdownItAnchor.permalink.ariaHidden({
+				placement: 'after'
+			})
+		 })
+		.use(window.markdownItTocDoneRight);
 
 	GW2Trivia.markdown.renderer.rules.footnote_block_open = () => (
 		'<h3 class="mt-3">Notes :</h3>\n' +
@@ -460,6 +466,7 @@ async function main() {
 	if (current_user) {
 		document.querySelector('#profile-link .user-avatar').src = `${current_user.avatarUrl}?size=128`;
 		document.querySelector('#profile-link .user-name').innerText = `${current_user.username}#${current_user.discriminator}`;
+		document.querySelector('#profile-link #nav-profile').href = `/users/view/${current_user.id}`;
 		document.getElementById('profile-link').hidden = false;
 		document.getElementById('logout-link').hidden = false;
 		document.getElementById('login-link').hidden = true;

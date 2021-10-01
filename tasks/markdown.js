@@ -1,3 +1,4 @@
+const anchor = require('markdown-it-anchor');
 const md = require('markdown-it')({
 	html:         false,        // Enable HTML tags in source
 	xhtmlOut:     false,        // Use '/' to close single tags (<br />).
@@ -13,6 +14,12 @@ const md = require('markdown-it')({
 	.use(require('markdown-it-abbr'))
 	.use(require('markdown-it-mark'))
 	.use(require('markdown-it-task-lists'))
+	.use(anchor, { 
+		permalink: anchor.permalink.ariaHidden({
+			placement: 'after'
+		})
+	})
+	.use(require('markdown-it-toc-done-right'))
 	.use(require('../public/js/markdown-it/markdown-it-figure.js'), {
 		dataType: false,  // <figure data-type="image">, default: false
 		figcaption: true,  // <figcaption>alternative text</figcaption>, default: false
@@ -28,7 +35,7 @@ md.renderer.rules.footnote_block_open = () => (
 
 module.exports = async (payload, helpers) => {
 	const { schema, table, id, markdown } = payload;
-	const html = md.render(markdown)
+	const html = md.render(/\[\[toc\]\]/gi.test(markdown) ? markdown : '[[TOC]]\n\n' + markdown)
 		.replace(/'/gi, '&apos;')
 		.replace(/(<\s*h)(\d+)/gi, (str, p1, p2) => `${p1}${Number(p2)+2}`);
 		console.log(html.substring(0, 300));

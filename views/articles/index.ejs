@@ -7,7 +7,30 @@
       <section class="action-container">
 	      <a href="/articles/create" class="action-new-article" title="Ajouter un article"><i class="mdi mdi-plus-thick"></i> article</a>
       </section>
-		  <article-container data-mode="list"></article-container>
+		  <article-container data-mode="list">
+        <% data.allArticles.nodes.forEach(article => { %>
+          <article class="article layout-block" itemscope itemtype="http://schema.org/Article" style="<%= article.imageByImageId ? `background-image: radial-gradient(ellipse closest-side, var(--article-list-background-center), var(--article-list-background-border)), url(/assets/img/${article.imageByImageId.id})` : '' %>">
+            <h2 itemprop="name"><a class="article-title" href="/articles/view/<%= article.id %>/<%= article.slug %>" itemprop="url"><%= article.title %></a></h2>
+            <div class="secondary-data">
+              <a class="article-author user user-card-small" href="/users/view/<%= article.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <img class="user-avatar" alt="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" title="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
+                <span class="user-name" itemprop="name"><%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %></span>
+              </a>
+            </div>
+            <div class="secondary-data">
+              <time class="article-creation-date" datetime="<%= new Date(article.createdAt).toISOString() %>" itemprop="dateCreated"><%= new Date(article.createdAt).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %></time>
+              <% if (article.categories.nodes.length) { %>
+                <ul class="article-categories article-has-categories">
+                  <% article.categories.nodes.forEach(category => { %>
+                    <li><a href="/questions?categories=<%= category.id %>"><%= category.name %></a></li>
+                  <% }) %>
+                </ul>
+              <% } %>
+            </div>
+	    <p class="article-description" itemprop="description"><%- article.description.escapeHtml().replace(/\n/g, '<br/>') %></p>
+          </article>
+        <% }); %>
+      </article-container>
     </main>
     <% include ../partials/templates %>
 

@@ -226,7 +226,7 @@ export default class ArticleContainerElement extends HTMLElement {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		};
-		fetch('/api/graphql', {
+		/*fetch('/api/graphql', {
 			method: "post",
 			headers,
 			body: JSON.stringify({
@@ -248,7 +248,7 @@ export default class ArticleContainerElement extends HTMLElement {
 					article['mode'] = 'list';
 					this.appendChild(new ArticleElement(article));
 				}
-			});
+			});*/
 	}
 
 }

@@ -6,6 +6,7 @@ const logger = require('morgan');
 const { postgraphile } = require('postgraphile');
 const fetch = require('node-fetch');
 const { run } = require("graphile-worker");
+const { GraphQLClient, gql } = require('graphql-request');
 
 const PgManyToManyPlugin = require('@graphile-contrib/pg-many-to-many');
 const PgByteaPlugin = require('./plugins/pg-bytea');
@@ -20,6 +21,19 @@ const questionsRouter = require('./routes/questions');
 const articlesRouter = require('./routes/articles');
 
 const app = express();
+
+console.log(process.version);
+
+String.prototype.escapeHtml = function() {
+    const tagsToReplace = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+    };
+    return this.replace(/[&<>]/g, function(tag) {
+        return tagsToReplace[tag] || tag;
+    });
+};
 
 // view engine
 app.set('views', path.join(__dirname, 'views'));
@@ -37,7 +51,7 @@ app.use('/mdi', express.static(path.join(__dirname, 'node_modules/@mdi/font'), {
 	dotfiles: 'ignore',
 	maxAge: '31d',
 }));
-const modules_dist = ['markdown-it', 'markdown-it-sub', 'markdown-it-sup', 'markdown-it-footnote', 'markdown-it-abbr', 'markdown-it-mark', 'markdown-it-task-lists'];
+const modules_dist = ['markdown-it', 'markdown-it-sub', 'markdown-it-sup', 'markdown-it-footnote', 'markdown-it-abbr', 'markdown-it-mark', 'markdown-it-anchor', 'markdown-it-toc-done-right', 'markdown-it-task-lists'];
 for (let i = modules_dist.length - 1 ; i >= 0 ; --i) {
 	const mod = modules_dist[i];
 	app.use(`/${mod}`, express.static(path.join(__dirname, `node_modules/${mod}/dist`), {
@@ -54,11 +68,34 @@ for (let i = modules.length - 1 ; i >= 0 ; --i) {
 	}));
 }
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
 	const { token } = req.signedCookies;
+	const graphOptions = {};
 	if (token) {
 		req.headers['authorization'] = `Bearer ${token}`;
 		res.cookie('token', token, { maxAge: 7 * 24 * 3600 * 1000, httpOnly: true, signed: true, sameSite: true });
+		graphOptions['headers'] = {
+			authorization: `Bearer ${token}`
+		};
+	}
+	res.graphQLClient = new GraphQLClient('https://gw2trivia.com/api/graphql', graphOptions);
+	if (token) {
+		const query = gql`
+		{
+			currentUser {
+				id username discriminator avatarUrl
+			}
+			currentGroup {
+				id isAdmin name
+			}
+		}
+		`;
+		try {
+			const { data } = await res.graphQLClient.rawRequest(query);
+			Object.assign(req, data);
+		} catch (e) {
+			console.error("Failed to fetch current user");
+		}
 	}
 	next();
 })

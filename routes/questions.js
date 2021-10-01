@@ -7,7 +7,7 @@ router.get('/', function(request, res, next) {
 	res.render('questions/index', {
 		title: 'GW2Trivia',
 		subtitle: 'Questions',
-		description: 'Plus de 300 questions sur l\'univers de Guild Wars apportées par la communauté, dans Questions pour un Quaggan.',
+		description: 'Plus de 1000 questions sur l\'univers de Guild Wars apportées par la communauté, dans Questions pour un Quaggan.',
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, jeu, gw2trivia, trivia, culture, pandraghon, questions',
 		validated: '1'
 	});
@@ -62,7 +62,10 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 			author: `${response.data.questionById.userByUserId.username}#${response.data.questionById.userByUserId.discriminator}`,
 			published_time: response.data.questionById.createdAt,
 		}))
-		.catch(err => console.error(err));
+		.catch(err => {
+			console.error(err);
+			next();
+		});
 });
 
 module.exports = router;

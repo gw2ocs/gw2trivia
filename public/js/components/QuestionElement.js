@@ -118,6 +118,54 @@ export default class QuestionElement extends HTMLElement {
 		return input_li;
 	}
 
+	createMultiImageRow(className, data) {
+		const input_li = document.createElement('li');
+		const input = document.createElement('input');
+		const img = document.createElement('img');
+		const input_delete_button = document.createElement('button');
+		if (data) {
+			Object.assign(input, {
+				value: data.id,
+				className: className,
+				name: className,
+				type: 'hidden',
+			});
+			Object.assign(input.dataset, {
+				origin: data.id,
+				id: data.id,
+			});
+			Object.assign(img.dataset, {
+				src: `/assets/img/${data.id}`
+			})
+		} else {
+			Object.assign(input, {
+				className: className,
+				name: className,
+			});
+			Object.assign(input.dataset, {
+				id: 'new',
+			});
+		}
+		Object.assign(input_delete_button, {
+			className: 'input-action',
+			type: 'button',
+			innerHTML: '<i class="mdi mdi-trash-can-outline"></i>'
+		});
+		input_delete_button.addEventListener('click', () => {
+			if (input.dataset.id === 'new') {
+				input_li.parentElement.removeChild(input_li);
+			} else {
+				input_li.hidden = true;
+				input.dataset.deleted = true;
+			}
+
+		});
+		input_li.appendChild(input);
+		input_li.appendChild(img);
+		input_li.appendChild(input_delete_button);
+		return input_li;
+	}
+
 	populate(question_el) {
 		const date_format = {
 			weekday: 'long',
@@ -165,7 +213,10 @@ export default class QuestionElement extends HTMLElement {
 				question_el.querySelector('.action-validate').hidden = false;
 			}
 		}
-		question_el.querySelector('.action-edit').addEventListener('click', () => { this.toggleMode(question_el, 'edit') }, false);
+		question_el.querySelector('.action-edit').addEventListener('click', () => { 
+			this.toggleMode(question_el, 'edit'); 
+			question_el.querySelectorAll('img[data-src]:not([src])').forEach(img => img.src = img.dataset.src);
+		}, false);
 		question_el.querySelector('.action-cancel').addEventListener('click', () => { this.toggleMode(question_el, 'display') }, false);
 		question_el.querySelector('.action-delete').addEventListener('click', () => {
 			if (confirm(`La question "${this.question.title}" sera définitivement supprimée.`)) {
@@ -272,11 +323,14 @@ export default class QuestionElement extends HTMLElement {
 
 		if (this.images.length) {
 			const image_list_el = document.createDocumentFragment();
+			const image_input_fragment = document.createDocumentFragment();
 			this.images.map(image => {
 				const image_el = document.createElement('img');
 				image_el.dataset.src = `/assets/img/${image.id}`;
 				image_list_el.appendChild(image_el);
+				image_input_fragment.appendChild(this.createMultiImageRow('input-image', image));
 			});
+			question_el.querySelector('.label-images .input-list').appendChild(image_input_fragment);
 			question_el.querySelector('.question-images').appendChild(image_list_el);
 			question_el.querySelectorAll('.question-has-image').forEach(el => el.hidden = false);
 		}
@@ -507,21 +561,32 @@ export default class QuestionElement extends HTMLElement {
 				let action;
 				let mutation;
 				const image_el = image_els[i];
-				const image_files = image_el.files;
-				for (let j = 0, jmax = image_files.length ; j < jmax ; j++) {
-					action = 'create';
-					const file = image_files[j];
+				const id = image_el.dataset.id;
+				const deleted = image_el.dataset.deleted;
+				if (deleted) {
+					action = 'deleteByImageIdAndQuestionId';
+					mutation = { questionId: this.question.id, imageId: Number(id) };
+					mutations.push(`mut${mutation_count++}: deleteImageById(input: {id: ${id}}) { deletedImageId }`);
+				} else {
+					if (id === 'new') {
+						const image_files = image_el.files;
+						for (let j = 0, jmax = image_files.length ; j < jmax ; j++) {
+							action = 'create';
+							const file = image_files[j];
 
-					if (!file.type.startsWith('image/')) continue;
+							if (!file.type.startsWith('image/')) continue;
 
-					const content = btoa(await readFileSync(file));
-					console.log(content);
-					mutation = { image: { create: {
-						content,
-						type: file.type,
-						userId: GW2Trivia.current_user.id
-					} } };
-					
+							const content = btoa(await readFileSync(file));
+							console.log(content);
+							mutation = { image: { create: {
+								content,
+								type: file.type,
+								userId: GW2Trivia.current_user.id
+							} } };
+						}
+					}
+				}
+				if (action && mutation) {
 					'imagesQuestionsRels' in question_data || (question_data['imagesQuestionsRels'] = {});
 					action in question_data['imagesQuestionsRels'] || (question_data['imagesQuestionsRels'][action] = []);
 					question_data['imagesQuestionsRels'][action].push(mutation);

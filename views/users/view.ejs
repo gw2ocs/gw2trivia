@@ -25,7 +25,7 @@
           <div class="user-achievements">
             <% record.achievementsByAchievementsUsersRelUserIdAndAchievementId.nodes.forEach(function(achievement) { %>
               <div class="achievement">
-                <img src="<%= `https://assets.gw2achievements.com/${encodeURIComponent(achievement.name)}.png?s=completed&i=${achievement.icon}&t=${achievement.theme}` %>" alt="<%= achievement.name %>" title="<%= achievement.description %>" width="318" height="90"/>
+                <img src="<%= `https://assets.gw2achievements.com/${encodeURIComponent(achievement.name)}.png?s=completed&l=fr&i=${achievement.icon}&t=${achievement.theme}` %>" alt="<%= achievement.name %>" title="<%= achievement.description %>" width="318" height="90"/>
               </div>
             <% }) %>
           </div>

@@ -77,7 +77,7 @@ export default class ArticleElement extends HTMLElement {
 	}
 
 	render_view() {
-		const template = document.querySelector('#article-view-template');
+		/*const template = document.querySelector('#article-view-template');
 		const node = document.importNode(template.content, true);
 		const el = node.querySelector('.article');
 
@@ -133,7 +133,7 @@ previous: allArticles(last: 1, filters: { validatedAt: { isNull: false, lessThan
 			}
 		}
 
-		this.appendChild(node);
+		this.appendChild(node);*/
 	}
 
 }

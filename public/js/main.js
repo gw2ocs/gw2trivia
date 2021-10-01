@@ -426,7 +426,13 @@ async function main() {
 			figcaption: true,  // <figcaption>alternative text</figcaption>, default: false
 			tabindex: false,   // <figure tabindex="1+n">..., default: false
 			link: true         // <a href="img.png"><img src="img.png"></a>, default: false
-		});
+		})
+		.use(window.markdownItAnchor, { 
+			permalink: window.markdownItAnchor.permalink.ariaHidden({
+				placement: 'after'
+			})
+		 })
+		.use(window.markdownItTocDoneRight);
 
 	GW2Trivia.markdown.renderer.rules.footnote_block_open = () => (
 		'<h3 class="mt-3">Notes :</h3>\n' +

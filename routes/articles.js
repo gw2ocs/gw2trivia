@@ -63,6 +63,7 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 	{
 		articleById(id: ${id}) {
 			id, slug, title, description, createdAt, updatedAt, validatedAt, html,
+			pagesByArticleId { nodes { id html } },
 			imageByImageId { id },
 			categories { nodes { id name slug } },
 			userByUserId { id, username, avatarUrl, discriminator }
@@ -71,9 +72,6 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 	`;
 
 	const { data } = await res.graphQLClient.rawRequest(query);
-	console.log(res);
-	console.log(res.currentGroup);
-	console.log(res.req.currentGroup);
 	const values = {
 		title: 'GW2Trivia',
 		subtitle: 'Articles',

@@ -25,12 +25,12 @@ export default class ArticleContainerElement extends HTMLElement {
 		} = this.dataset || {};
 		const template = document.querySelector('#article-edit-template');
 		const node = document.importNode(template.content, true);
-		const el = node.querySelector('.article');
+		const el = node.querySelector('form');
 
 		const title_el = el.querySelector('[name=title]');
 		const description_el = el.querySelector('[name=description]');
 		const markdown_el = el.querySelector('[name=markdown]');
-		const form_el = el.querySelector('form');
+		const form_el = el;
 		const file_el = el.querySelector('input[name=image]');
 
 		this._origin = {};

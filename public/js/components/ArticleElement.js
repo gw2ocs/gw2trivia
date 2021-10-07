@@ -77,7 +77,7 @@ export default class ArticleElement extends HTMLElement {
 	}
 
 	extractHeadings($contentElement) {
-		const headingElements = [...$contentElement.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+		const headingElements = [...$contentElement.querySelectorAll(':is(h1, h2, h3, h4, h5, h6):not(.footnotes-title)')];
 		const headings = []; // top level heading
 		let previous = false;
 		for (let i = 0, imax = headingElements.length ; i < imax ; i++) {

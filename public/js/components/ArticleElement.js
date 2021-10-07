@@ -76,7 +76,73 @@ export default class ArticleElement extends HTMLElement {
 		this.appendChild(node);
 	}
 
+	extractHeadings($contentElement) {
+		const headingElements = [...$contentElement.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+		const headings = []; // top level heading
+		let previous = false;
+		for (let i = 0, imax = headingElements.length ; i < imax ; i++) {
+			const headingData = headingElements[i];
+			const heading = {
+				title: headingData.innerText.replace(/#*$/g,''),
+				depth: Number(headingData.nodeName.replace(/\D/g,'')),
+      			id: headingData.getAttribute('id'),
+				children: [],
+				parent: false,
+			};
+			if (previous) {
+				if (previous.depth < heading.depth) {
+					previous.children.push(heading);
+					heading.parent = previous;
+				} else if (previous.depth === heading.depth) {
+					if (previous.parent) {
+						previous.parent.children.push(heading);
+						heading.parent = previous.parent;
+					}
+				} else {
+					let parent = previous.parent;
+					while (parent && parent.depth >= heading.depth) {
+						parent = parent.parent;
+					}
+					if (parent) {
+						parent.children.push(heading);
+						heading.parent = parent;
+					}
+				}
+			}
+			if (!heading.parent) {
+				headings.push(heading);
+			}
+			previous = heading;
+		}
+		return headings;
+	}
+
+	generateOneHeadingMarkup(heading) {
+		return `
+		<li>
+			<a href="#${heading.id}">${heading.title}</a>
+			${heading.children.length ? `<ol>${heading.children.map(h => this.generateOneHeadingMarkup(h)).join('\n')}</ol>` : ''}
+		</li>
+		`;
+	}
+
+	generateLinkMarkup(headings) {
+		return `
+		<ol>
+			${headings.map(h => this.generateOneHeadingMarkup(h)).join('\n')}
+		</ol>
+		`;
+	}
+
 	render_view() {
+		const el = document.querySelector('.article-content');
+		const tocData = this.extractHeadings(el);
+		if (tocData.length) {
+			const tocHtml = this.generateLinkMarkup(tocData);
+			const tocEl = document.querySelector('.table-of-contents');
+			tocEl.innerHTML = tocHtml;
+			tocEl.hidden = false;
+		}
 		/*const template = document.querySelector('#article-view-template');
 		const node = document.importNode(template.content, true);
 		const el = node.querySelector('.article');

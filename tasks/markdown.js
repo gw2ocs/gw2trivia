@@ -35,7 +35,7 @@ md.renderer.rules.footnote_block_open = () => (
 
 module.exports = async (payload, helpers) => {
 	const { schema, table, id, markdown } = payload;
-	const html = md.render(/\[\[toc\]\]/gi.test(markdown) ? markdown : '[[TOC]]\n\n' + markdown)
+	const html = md.render(markdown)
 		.replace(/'/gi, '&apos;')
 		.replace(/(<\s*h)(\d+)/gi, (str, p1, p2) => `${p1}${Number(p2)+2}`);
 		console.log(html.substring(0, 300));

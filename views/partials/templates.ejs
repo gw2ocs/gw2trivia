@@ -36,7 +36,7 @@
 			<button type="button" title="Lien" class="editor-action-link" data-function="addLink"><i class="mdi mdi-link"></i></button>
 			<button type="button" title="Image" class="editor-action-image" data-function="addImage"><i class="mdi mdi-image-outline"></i></button>
 		</div>
-		<textarea class="editor-content">
+		<textarea class="editor-content" rows="30">
 # Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 
 Curabitur **congue** dui est, ac *varius* neque facilisis in. 
@@ -322,10 +322,15 @@ Integer vestibulum laoreet leo, vel rutrum ex ultricies vitae.
 					<textarea name="description" id="description" rows="5"></textarea>
 				</label>
 			</div>
+		</article>
+		<article class="article layout-block" id="article-content-container">
 			<div class="input-group input-full">
-				<label for="article-content">Contenu</label>
-				<markdown-editor rows="30" id="article-content" name="markdown"></markdown-editor>
+				<label for="article-content-1">Page n°1</label>
+				<markdown-editor rows="30" id="article-content-1" name="markdown"></markdown-editor>
 			</div>
+		</article>
+		<button type="button" class="action-add-page" title="Ajouter un page"><i class="mdi mdi-plus-thick"></i> page</button>
+		<article class="article layout-block">
 			<div class="action-group">
 				<button type="submit" value="Submit" class="action-submit">Sauvegarder</button>
 			</div>

@@ -1,4 +1,5 @@
 import ArticleElement from './ArticleElement.js';
+import EditorElement from './EditorElement.js';
 
 export default class ArticleContainerElement extends HTMLElement {
 
@@ -19,19 +20,49 @@ export default class ArticleContainerElement extends HTMLElement {
 		this[func_name]();
 	}
 
+	generatePageEditor(index, page) {
+		const container = document.createElement('article');
+		container.classList.add('article', 'layout-block');
+		
+		const inputGroup = document.createElement('div');
+		inputGroup.classList.add('input-group', 'input-full');
+
+		const label = document.createElement('label');
+		Object.assign(label, {
+			for: `article-content-${index}`,
+			textContent: `Page n°${index}`
+		});
+
+		const editor = new EditorElement();
+		Object.assign(editor, {
+			rows: 30,
+			id: `article-content-${index}`,
+			name: 'markdown',
+			value: page && page.markdown || ''
+		});
+		editor.dataset.id = page && page.id || 'new';
+
+		inputGroup.appendChild(label);
+		inputGroup.appendChild(editor);
+		container.appendChild(inputGroup);
+		return container;
+	}
+
 	render_edit() {
 		const {
 			id = 'new',
 		} = this.dataset || {};
 		const template = document.querySelector('#article-edit-template');
 		const node = document.importNode(template.content, true);
-		const el = node.querySelector('.article');
+		const el = node.querySelector('form');
 
 		const title_el = el.querySelector('[name=title]');
 		const description_el = el.querySelector('[name=description]');
 		const markdown_el = el.querySelector('[name=markdown]');
-		const form_el = el.querySelector('form');
+		const markdown_container_el = el.querySelector('#article-content-container');
+		const form_el = el;
 		const file_el = el.querySelector('input[name=image]');
+		const add_page_btn = el.querySelector('.action-add-page');
 
 		this._origin = {};
 
@@ -42,6 +73,11 @@ export default class ArticleContainerElement extends HTMLElement {
 			const category_input = category_input_li.querySelector('select');
 			form_el.querySelector('.label-categories .input-list').appendChild(category_input_li);
 			category_input.focus();
+		});
+
+		add_page_btn.addEventListener('click', () => {
+			const page_el = this.generatePageEditor(document.querySelectorAll('[id^=article-content-]').length + 1);
+			add_page_btn.parentNode.insertBefore(page_el, add_page_btn);
 		});
 
 		if (mode === 'update') {			
@@ -76,6 +112,15 @@ export default class ArticleContainerElement extends HTMLElement {
 						});
 						el.querySelector('.label-categories .input-list').appendChild(categories_input_fragment);
 					}
+
+					if (article.pagesByArticleId.nodes.length) {
+						const pages_fragment = document.createDocumentFragment();
+						article.pagesByArticleId.nodes.forEach((page, i) => {
+							const page_el = this.generatePageEditor(i+1, page);
+							pages_fragment.appendChild(page_el);
+						});
+						markdown_container_el.parentNode.replaceChild(pages_fragment, markdown_container_el);
+					}
 				});
 		}
 
@@ -90,6 +135,7 @@ export default class ArticleContainerElement extends HTMLElement {
 			let mutation;
 			
 			const category_els = form_el.querySelectorAll('select[name="input-category"]');
+			const page_els = form_el.querySelectorAll('[name="markdown"]');
 
 			if (title_el.value !== this._origin.title) {
 				data['title'] = title_el.value;
@@ -127,6 +173,33 @@ export default class ArticleContainerElement extends HTMLElement {
 					'articlesCategoriesRels' in data || (data['articlesCategoriesRels'] = {});
 					action in data['articlesCategoriesRels'] || (data['articlesCategoriesRels'][action] = []);
 					data['articlesCategoriesRels'][action].push(mutation);
+				}
+			}
+
+			for (let i = 0, imax = page_els.length ; i < imax ; i++) {
+				const page_el = page_els[i];
+				const content = page_el.value;
+				const page_id = page_el.dataset.id;
+				const deleted = page_id !== 'new' && !content;
+				if (deleted) {
+					action = 'deleteById';
+					mutation = { id: Number(page_id) };
+				} else if (content) {
+					if (page_id === 'new') {
+						action = 'create';
+						mutation = { markdown: content, userId: GW2Trivia.current_user.id };
+					} else if (this._origin.pagesByArticleId.nodes.find(p => p.id === Number(page_id)).markdown !== content) {
+						action = 'updateById';
+						mutation = {
+							pagePatch: { markdown: content }, 
+							id: Number(page_id)
+						};
+					}
+				}
+				if (action && mutation) {
+					'pages' in data || (data['pages'] = {});
+					action in data['pages'] || (data['pages'][action] = []);
+					data['pages'][action].push(mutation);
 				}
 			}
 

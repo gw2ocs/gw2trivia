@@ -4,8 +4,8 @@
   <body>
     <% include ../partials/header %>
     <main class="layout-main">
-		  <article-container data-mode="view" data-id="<%= id %>">
-        <article class="article layout-block" itemscope itemtype="http://schema.org/Article">
+		  <article-container data-mode="view" data-id="<%= id %>" itemscope itemtype="http://schema.org/Article">
+        <article class="article layout-block">
           <h2 class="article-title" itemprop="name"><%= article.title %></h2>
           <div class="article-actions">
             <% if (res.req.currentUser && res.req.currentUser.id === article.userByUserId.id || res.req.currentGroup && res.req.currentGroup.isAdmin) { %>
@@ -30,10 +30,14 @@
             <% } %>
             </div>
           <p class="article-description" itemprop="description"><%- article.description.escapeHtml().replace(/\n/g, '<br/>') %></p>
-          <hr/>
           <div class="table-of-contents" hidden></div>
-          <div class="article-content" itemprop="articleBody"><%- article.html %></div>
-          <hr/>
+        </article>
+        <div class="article-content" itemprop="articleBody">
+          <% article.pagesByArticleId.nodes.forEach(page => { %>
+            <article class="article layout-block"><%- page.html %></article>
+          <% }) %>
+        </div>
+        <article class="article layout-block">
           <p class="secondary-data">
             Vous pouvez échanger à propos de cet article sur le salon #discussion du <a href="https://discord.gg/YpcMnDY" rel="noreferrer" target="_blank">Discord de Questions pour un Quaggan.</a>
           </p>

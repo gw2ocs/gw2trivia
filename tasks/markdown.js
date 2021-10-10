@@ -28,7 +28,7 @@ const md = require('markdown-it')({
 	});
 
 md.renderer.rules.footnote_block_open = () => (
-	'<h1 class="mt-3">Notes :</h1>\n' +
+	'<h1 class="mt-3 footnotes-title">Notes :</h1>\n' +
 	'<section class="footnotes">\n' +
 	'<ol class="footnotes-list">\n'
 );

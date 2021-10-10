@@ -773,7 +773,7 @@ article-container[data-mode=list] .secondary-data {
 	text-align: center;
 }
 
-article-container[data-mode=edit] .article form {
+article-container[data-mode=edit] .article {
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -893,6 +893,7 @@ article-container[data-mode=view] li p {
 	padding-right: 2em;
 	margin-left: 2em;
 	margin-top: 1em;
+	margin-bottom: 1em;
 	width: max-content;
 }
 

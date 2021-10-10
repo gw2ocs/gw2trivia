@@ -134,6 +134,23 @@ export default class ArticleElement extends HTMLElement {
 		`;
 	}
 
+	cleanFootnotes($contentElement) {
+		const pageElements = [...$contentElement.querySelectorAll('.article')];
+		for (let i = 0, imax = pageElements.length ; i < imax ; i++) {
+			const page = pageElements[i];
+			page.querySelectorAll('.footnote-ref a').forEach(ref => Object.assign(ref, {
+				id: `${i}${ref.id}`,
+				href: ref.href.replace(/#/, `#${i}`),
+			}));
+			page.querySelectorAll('.footnote-item').forEach(item => Object.assign(item, {
+				id: `${i}${item.id}`,
+			}));
+			page.querySelectorAll('.footnote-backref').forEach(ref => Object.assign(ref, {
+				href: ref.href.replace(/#/, `#${i}`),
+			}));
+		}
+	}
+
 	render_view() {
 		const el = document.querySelector('.article-content');
 		const tocData = this.extractHeadings(el);
@@ -143,6 +160,7 @@ export default class ArticleElement extends HTMLElement {
 			tocEl.innerHTML = tocHtml;
 			tocEl.hidden = false;
 		}
+		this.cleanFootnotes(el);
 		/*const template = document.querySelector('#article-view-template');
 		const node = document.importNode(template.content, true);
 		const el = node.querySelector('.article');

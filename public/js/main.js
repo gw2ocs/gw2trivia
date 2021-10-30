@@ -162,6 +162,27 @@ customElements.define('question-article', QuestionElement);
 customElements.define('pagination-nav', PaginationElement);
 customElements.define('modal-simple', ModalElement);
 
+const manageDarkTheme = () => {
+    const btn = document.querySelector(".toggle-theme");
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme == "dark") {
+        document.body.classList.toggle("dark-mode");
+    } else if (currentTheme == "light") {
+        document.body.classList.toggle("light-mode");
+    }
+    btn.addEventListener("click", function() {
+        if (prefersDarkScheme.matches) {
+            document.body.classList.toggle("light-mode");
+            var theme = document.body.classList.contains("light-mode") ? "light" : "dark";
+        } else {
+            document.body.classList.toggle("dark-mode");
+            var theme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+        }
+        localStorage.setItem("theme", theme);
+    });
+};
+
 const loadQuestions = (container_el) => {
 	const {
 		validated = false,
@@ -407,6 +428,8 @@ const loadQuestionContainers = () => {
 };
 
 async function main() {
+	
+	manageDarkTheme();
 
 	GW2Trivia.markdown = window.markdownit({
 		html:         false,        // Enable HTML tags in source

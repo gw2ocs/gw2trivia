@@ -138,5 +138,13 @@ router.get('/legal', function(req, res, next) {
 	});
 });
 
+router.get('/gw2', function(req, res, next) {
+	return res.redirect('https://www.kqzyfj.com/click-100581015-13024577');
+});
+
+router.get('/f2p', function(req, res, next) {
+	return res.redirect('https://www.jdoqocy.com/click-100581015-14414545 ');
+});
+
 module.exports = router;
 

@@ -40,6 +40,7 @@ router.get('/view/:id', async function(request, res, next) {
 			type: 'article',
 			section: 'Utilisateurs',
 			record: response.data.userById,
+			res,
 		}))
 		.catch(err => console.error(err));
 });

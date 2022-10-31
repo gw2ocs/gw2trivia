@@ -9,7 +9,8 @@ router.get('/', function(request, res, next) {
 		subtitle: 'Questions',
 		description: 'Plus de 1000 questions sur l\'univers de Guild Wars apportées par la communauté, dans Questions pour un Quaggan.',
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, jeu, gw2trivia, trivia, culture, pandraghon, questions',
-		validated: '1'
+		validated: '1',
+		res,
 	});
 });
 
@@ -20,7 +21,8 @@ router.get('/suggestions', function(request, res, next) {
 		subtitle: 'Suggestions',
 		description: 'Liste des questions en attente de validation. Venez proposer les votres !',
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, jeu, gw2trivia, trivia, culture, pandraghon, suggestions',
-		validated: '0'
+		validated: '0',
+		res,
 	});
 });
 
@@ -61,6 +63,7 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 			section: 'Questions',
 			author: `${response.data.questionById.userByUserId.username}#${response.data.questionById.userByUserId.discriminator}`,
 			published_time: response.data.questionById.createdAt,
+			res,
 		}))
 		.catch(err => {
 			console.error(err);

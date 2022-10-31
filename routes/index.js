@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 		subtitle: 'Jeu de culture générale sur l\'univers de Guild Wars', 
 		description: 'Tester vos connaissances sur l\'univers de Guild Wars en participant à Questions pour un Quaggan, un jeu présenté par Ogden Guéripierre.',
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, ogden guéripierre, jeu, gw2trivia, trivia, culture, pandraghon',
+		res,
 	});
 });
 
@@ -111,6 +112,7 @@ router.get('/stats', function(req, res, next) {
 		subtitle: 'Statistiques', 
 		description: 'Statistiques sur Questions pour un Quaggan.',
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, ogden guéripierre, jeu, gw2trivia, trivia, culture, pandraghon',
+		res,
 	});
 });
 
@@ -121,6 +123,7 @@ router.get('/support', function(req, res, next) {
 		subtitle: 'Support', 
 		description: 'Statistiques sur Questions pour un Quaggan.',
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, ogden guéripierre, jeu, gw2trivia, trivia, culture, pandraghon',
+		res,
 	});
 });
 
@@ -131,6 +134,7 @@ router.get('/legal', function(req, res, next) {
 		subtitle: 'Mentions légales', 
 		description: 'Tester vos connaissances sur l\'univers de Guild Wars en participant à Questions pour un Quaggan, un jeu présenté par Ogden Guéripierre.',
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, ogden guéripierre, jeu, gw2trivia, trivia, culture, pandraghon, mentions, legal',
+		res,
 	});
 });
 

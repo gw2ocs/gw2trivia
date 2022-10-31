@@ -68,6 +68,25 @@ for (let i = modules.length - 1 ; i >= 0 ; --i) {
 	}));
 }
 
+app.use((req, res, next) => {
+	const date = new Date();
+	let special_date = false;
+
+	if (date.getDate() === 1 && date.getMonth() === 3) {
+		special_date = 'aprilfool';
+	}
+
+	if (req.query.special) {
+		special_date = req.query.special;
+	}
+
+	Object.assign(res, {
+		current_date: date,
+		special_date
+	});
+	next();
+});
+
 app.use(async (req, res, next) => {
 	const { token } = req.signedCookies;
 	const graphOptions = {};
@@ -156,6 +175,7 @@ app.use((error, request, response, next) => {
 		description: `Erreur ${status}`,
 		keywords: 'questions pour un quaggan, guild wars, gw, gw2, jeu, gw2trivia, trivia, culture',
 		page_title: `Erreur ${status}`,
+		res: response,
 	};
 	response.status(status);
 	response.render('error', data);

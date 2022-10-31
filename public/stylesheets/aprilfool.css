@@ -1,0 +1,19 @@
+.gw2-laurel {
+	background: url('../img/aprilfool/gw2-laurel.png') no-repeat;
+	background-position: initial;
+	background-size: cover;
+	width: 1.6em;
+}
+
+.question-points i {
+	height: .8em;
+	vertical-align: 0;
+}
+
+.layout-header {
+	background-image: url(../img/aprilfool/header.png);
+}
+
+.layout-footer::before {
+	background-image: url(../img/aprilfool/footer.png);
+}

@@ -35,6 +35,7 @@ export default class ArticleElement extends HTMLElement {
 
 		const title_el = el.querySelector('.article-title');
 		const description_el = el.querySelector('.article-description');
+		const unpublished_el = el.querySelector('.article-unpublished')
 
 		Object.assign(title_el, {
 			textContent: this.article.title,
@@ -72,6 +73,7 @@ export default class ArticleElement extends HTMLElement {
 			category_ul_el.forEach(ul => ul.append(categories_fragment.cloneNode(true)));
 			el.querySelectorAll('.article-has-categories').forEach(el => el.hidden = false);
 		}
+		unpublished_el.hidden = !this.article.validatedAt;
 
 		this.appendChild(node);
 	}
@@ -153,6 +155,8 @@ export default class ArticleElement extends HTMLElement {
 
 	render_view() {
 		const el = document.querySelector('.article-content');
+		const container = el.closest('article-container');
+		const deleteBtn = container.querySelector('.article-action-delete');
 		const tocData = this.extractHeadings(el);
 		if (tocData.length) {
 			const tocHtml = this.generateLinkMarkup(tocData);
@@ -161,6 +165,31 @@ export default class ArticleElement extends HTMLElement {
 			tocEl.hidden = false;
 		}
 		this.cleanFootnotes(el);
+		if (deleteBtn) {
+			deleteBtn.addEventListener('click', (e) => {
+				e.preventDefault();
+				if (confirm(`L'article sera définitivement supprimé.`)) {
+					fetch('/api/graphql', {
+						method: "post",
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							query: `mutation { deleteArticleById(input: { id: ${container.dataset.id} }) { deletedArticleId }}`,
+						}),
+					})
+						.then(response => response.json())
+						.then(data => {
+							window.location = '/articles';
+						})
+						.catch(err => {
+							alert('Une erreur est survenue. Veuillez réessayer. Si le problème persiste, merci de prévenir l\'administrateur.');
+							console.error(err);
+						});
+				}
+			}, false);
+		}
 		/*const template = document.querySelector('#article-view-template');
 		const node = document.importNode(template.content, true);
 		const el = node.querySelector('.article');

@@ -58,7 +58,7 @@ export default class ArticleContainerElement extends HTMLElement {
 
 		const title_el = el.querySelector('[name=title]');
 		const description_el = el.querySelector('[name=description]');
-		const markdown_el = el.querySelector('[name=markdown]');
+		//const markdown_el = el.querySelector('[name=markdown]');
 		const markdown_container_el = el.querySelector('#article-content-container');
 		const form_el = el;
 		const file_el = el.querySelector('input[name=image]');
@@ -103,7 +103,7 @@ export default class ArticleContainerElement extends HTMLElement {
 					this.article = article;
 					title_el.value = article.title;
 					description_el.value = article.description;
-					markdown_el.value = article.markdown;
+					//markdown_el.value = article.markdown;
 
 					if (article.categories.nodes.length) {
 						const categories_input_fragment = document.createDocumentFragment();
@@ -145,11 +145,13 @@ export default class ArticleContainerElement extends HTMLElement {
 				data['description'] = description_el.value;
 			}
 
-			if (markdown_el.value !== this._origin.markdown) {
-				data['markdown'] = markdown_el.value;
-			}
+			//if (markdown_el.value !== this._origin.markdown) {
+			//	data['markdown'] = markdown_el.value;
+			//}
 
 			for (let i = 0, imax = category_els.length ; i < imax ; i++) {
+				action = false;
+				mutation = false;
 				const category_el = category_els[i];
 				const content = category_el.value;
 				const categ_id = category_el.dataset.id;
@@ -177,10 +179,13 @@ export default class ArticleContainerElement extends HTMLElement {
 			}
 
 			for (let i = 0, imax = page_els.length ; i < imax ; i++) {
+				action = false;
+				mutation = false;
 				const page_el = page_els[i];
 				const content = page_el.value;
 				const page_id = page_el.dataset.id;
 				const deleted = page_id !== 'new' && !content;
+				const page_origin = this._origin.pagesByArticleId && this._origin.pagesByArticleId.nodes.find(p => p.id === Number(page_id));
 				if (deleted) {
 					action = 'deleteById';
 					mutation = { id: Number(page_id) };
@@ -188,7 +193,7 @@ export default class ArticleContainerElement extends HTMLElement {
 					if (page_id === 'new') {
 						action = 'create';
 						mutation = { markdown: content, userId: GW2Trivia.current_user.id };
-					} else if (this._origin.pagesByArticleId.nodes.find(p => p.id === Number(page_id)).markdown !== content) {
+					} else if (page_origin && page_origin.markdown !== content) {
 						action = 'updateById';
 						mutation = {
 							pagePatch: { markdown: content }, 

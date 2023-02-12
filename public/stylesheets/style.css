@@ -63,6 +63,28 @@ body.dark-mode {
 	--article-list-background-border: var(--body-background-color);
 }
 
+body.dark-mode {
+	--body-background-color: #212121;
+	--body-color: ghostwhite;
+	--link-color: #00B7FF;
+	--layout-header-color: black;
+	--layout-footer-text-shadow: black;
+	--layout-footer-link-color: #00B7FF;
+	--layout-block-background-color: #353535;
+	--layout-block-border: #312b25;
+	--secondary-data: #969696;
+	--table-background-color2: #060600;
+	--modal-content-background-color: black;
+	--modal-backdrop-background-color: ghostwhite;
+	--modal-border: #312b25;
+	--article-container-box-shadow: black;
+	--article-container-text-shadow: none;
+	--page-figcaption-color: #969696;
+	--user-avatar-border-color: ghostwhite;
+	--article-list-background-center: rgba(0, 0, 0, 0.5);
+	--article-list-background-border: rgba(0, 0, 0, 0.85);
+}
+
 @media (prefers-color-scheme: dark) {
 	body {
 		--body-background-color: #212121;

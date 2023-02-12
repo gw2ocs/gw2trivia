@@ -435,6 +435,8 @@ const loadQuestionContainers = () => {
 };
 
 async function main() {
+	
+	manageDarkTheme();
 
 	manageDarkTheme();
 

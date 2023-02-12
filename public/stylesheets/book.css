@@ -1,0 +1,341 @@
+.book-list {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.book-list > li {
+	display: block;
+	width: 512px;
+	min-height: 355px;
+	margin: 1em 0;
+	padding: 0;
+}
+
+.book-list > li .book-container {
+	width: 100%;
+	min-height: 355px;
+	position: relative;
+	padding: 0;
+	margin: 0;
+}
+
+.book-container {
+	perspective: 1800px;
+}
+
+.book-container figcaption {
+	position: absolute;
+	left: 250px;
+	padding: 0 25px;
+	width: 262px;
+	font-size: .85em;
+}
+
+.book-container figcaption .user-avatar {
+	width: 24px;
+	height: 24px;
+}
+
+.book {
+	--book-width: 250px;
+	--book-height: 355px;
+	position: absolute;
+	width: var(--book-width);
+	height: var(--book-height);
+	z-index: 1;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transition: -webkit-transform .5s;
+	transition: transform .5s;
+	font-size: .9em;
+	/*perspective: 1800px;*/
+}
+
+.book-front > div,
+.book-back,
+.book-left,
+.book-front:after {
+	background-color: #080808;
+	color: ghostwhite;
+}
+
+.book:hover {
+	-webkit-transform: rotate3d(0,1,0,35deg);
+	transform: rotate3d(0,1,0,35deg);
+}
+
+.book > div,
+.book-front > div {
+	display: block;
+	position: absolute;
+}
+
+.book-front {
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform-origin: 0% 50%;
+	transform-origin: 0% 50%;
+	-webkit-transition: -webkit-transform .5s;
+	transition: transform .5s;
+	-webkit-transform: translate3d(0,0,20px);
+	transform: translate3d(0,0,20px);
+	z-index: 10;
+}
+
+.book-front > div {
+	z-index: 1;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.book-page {
+	-webkit-transform: translate3d(0,0,19px);
+	transform: translate3d(0,0,19px);
+	display: none;
+	width: calc(var(--book-width) - 5px);
+	height: calc(var(--book-height) - 10px);
+	top: 5px;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	z-index: 9;
+}
+
+.book-front,
+.book-back,
+.book-front > div {
+	width: var(--book-width);
+	height: var(--book-height);
+}
+
+.book-left,
+.book-right {
+	width: 40px;
+	left: -20px;
+}
+
+.book-left h2 {
+	display: flex;
+}
+
+.book-left h2 .book-collection {
+	flex-shrink: 1;
+	max-width: 20%;
+	font-size: .55em;
+}
+
+.book-left h2 .book-title {
+	flex-grow: 1;
+}
+
+.book-top,
+.book-bottom {
+	width: calc(var(--book-width) - 5px);
+	height: 40px;
+	top: -15px;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.book-back {
+	-webkit-transform: rotate3d(0,1,0,-180deg) translate3d(0,0,20px);
+	transform: rotate3d(0,1,0,-180deg) translate3d(0,0,20px);
+	box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
+	border-radius: 3px 0 0 3px;
+}
+
+.book-cover-back {
+	background-color: #000;
+	-webkit-transform: rotate3d(0,1,0,-179deg);
+	transform: rotate3d(0,1,0,-179deg);
+}
+
+.book-right {
+	height: calc(var(--book-height) - 10px);
+	top: 5px;
+	-webkit-transform: rotate3d(0,1,0,90deg) translate3d(0,0,calc(var(--book-width) - 5px));
+	-moz-transform: rotate3d(0,1,0,90deg) translate3d(0,0,calc(var(--book-width) - 5px));
+	transform: rotate3d(0,1,0,90deg) translate3d(0,0,calc(var(--book-width) - 5px));
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.book-left {
+	height: var(--book-height);
+	-webkit-transform: rotate3d(0,1,0,-90deg);
+	transform: rotate3d(0,1,0,-90deg);
+}
+
+.book-top {
+	-webkit-transform: rotate3d(1,0,0,90deg);
+	transform: rotate3d(1,0,0,90deg);
+}
+
+.book-bottom {
+	-webkit-transform: rotate3d(1,0,0,-90deg) translate3d(0,0,calc(var(--book-height) - 10px));
+	transform: rotate3d(1,0,0,-90deg) translate3d(0,0,calc(var(--book-height) - 10px));
+}
+
+/* Transform classes */
+
+.book-viewinside .book-front {
+	-webkit-transform: translate3d(0,0,20px) rotate3d(0,1,0,-160deg);
+	transform: translate3d(0,0,20px) rotate3d(0,1,0,-160deg);
+}
+
+.book.book-viewinside {
+	-webkit-transform: translate3d(0,0,150px) rotate3d(0,1,0,0deg);
+	transform: translate3d(0,0,150px) rotate3d(0,1,0,0deg);
+}
+
+.book.book-viewback {
+	-webkit-transform: translate3d(0,0,0px) rotate3d(0,1,0,180deg);
+	transform: translate3d(0,0,0px) rotate3d(0,1,0,180deg);
+}
+
+/* Main colors and content */
+
+.book-page,
+.book-right,
+.book-top,
+.book-bottom {
+	background-color: #fff;
+}
+
+.book-front > div {
+	border-radius: 0 3px 3px 0;
+	box-shadow: 
+		inset 4px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-front:after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	bottom: 1px;
+	left: -1px;
+	width: 1px;
+}
+
+.book-cover {
+	background-size: cover;
+}
+
+.book-cover:after,
+.book-back:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 10px;
+	bottom: 0;
+	width: 3px;
+	background: rgba(0,0,0,0.06);
+	box-shadow: 1px 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.book-back {
+	background-size: cover;
+}
+
+.book-back:after {
+	left: auto;
+	right: 10px;
+}
+
+.book-left h2 {
+	width: var(--book-height);
+	height: 40px;
+	-webkit-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transform: rotate(90deg) translateY(-40px);
+	transform: rotate(90deg) translateY(-40px);
+}
+
+.book-content {
+	position: absolute;
+	top: 30px;
+	left: 20px;
+	bottom: 20px;
+	right: 20px;
+	padding: 30px;
+	overflow: hidden;
+	background: #fff;
+	opacity: 0;
+	pointer-events: none;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-transition: opacity 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
+	cursor: default;
+}
+
+.book-content-current {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.book-content p {
+	padding: 0 0 10px;
+	-webkit-font-smoothing: antialiased;
+	color: #000;
+	font-size: 13px;
+	line-height: 20px;
+	text-align: justify;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.book-page nav {
+	display: block;
+	text-align: center;
+	margin-top: 20px;
+	position: relative;
+	z-index: 100;
+	cursor: pointer;
+}
+
+.book-page nav span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	color: #aaa;
+	background: #f0f0f0;
+	border-radius: 50%;
+}
+
+
+/* Media Queries */
+@media screen and (max-width: 512px) {
+	.book-list > li {
+		width: 100%;
+		min-height: 600px;
+		height: auto;
+		padding: 0;
+		margin: 0 0 30px 0;
+	}
+
+	.book-list > li .book-container {
+		margin: 0 auto;
+		width: 250px;
+	}
+
+	.book-container figcaption {
+		text-align: center;
+		width: 350px;
+		top: 350px;
+		left: -50px;
+		font-size: 90%;
+	}
+}

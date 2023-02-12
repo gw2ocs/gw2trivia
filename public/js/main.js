@@ -10,28 +10,28 @@ let current_user = false;
 let current_group = false;
 window.GW2Trivia = {
 	question_fields: `id, slug, fullSlug, title, points, createdAt, validated, spoil,
-                  images { nodes { id } },
+                  images { nodes { id extension } },
 				categories { nodes { id name slug } },
                   userByUserId { id, username, avatarUrl, discriminator },
                   tipsByQuestionId { nodes { id, content } }`,
 	question_fields_with_answers: `id, slug, fullSlug, title, points, createdAt, validated, spoil, notes,
-                  images { nodes { id } },
+                  images { nodes { id extension } },
 		  		categories { nodes { id name slug } },
                   userByUserId { id, username, avatarUrl, discriminator },
                   tipsByQuestionId { nodes { id, content } },
 				  answersByQuestionId { nodes { id, content } }`,
 	article_fields: `id, slug, title, description, createdAt, updatedAt, validatedAt,
-					imageByImageId { id },
+					imageByImageId { id extension },
 					categories { nodes { id name slug } },
 					userByUserId { id, username, avatarUrl, discriminator }`,
 	article_fields_with_html: `id, slug, title, description, createdAt, updatedAt, validatedAt, html,
 					pagesByArticleId { nodes { id html } },
-					imageByImageId { id },
+					imageByImageId { id extension },
 					categories { nodes { id name slug } },
 					userByUserId { id, username, avatarUrl, discriminator }`,
 	article_fields_with_markdown: `id, slug, title, description, createdAt, updatedAt, validatedAt, markdown,
 					pagesByArticleId { nodes { id markdown } },
-					imageByImageId { id },
+					imageByImageId { id extension },
 					categories { nodes { id name slug } },
 					userByUserId { id, username, avatarUrl, discriminator }`,
 	date_format: {
@@ -276,6 +276,13 @@ const loadMenus = () => {
 	// 		localStorage.clear();
 	// 	});
 	// }
+	document.querySelectorAll('.layout-nav ul').forEach(el => {
+		el.addEventListener('mousemove', e => {
+			const { x, y } = el.getBoundingClientRect();
+			el.style.setProperty('--x', e.clientX - x);
+			el.style.setProperty('--y', e.clientY - y);
+		});
+	})
 };
 
 const loadData = async () => {
@@ -429,6 +436,8 @@ const loadQuestionContainers = () => {
 
 async function main() {
 	
+	manageDarkTheme();
+
 	manageDarkTheme();
 
 	GW2Trivia.markdown = window.markdownit({

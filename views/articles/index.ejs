@@ -4,13 +4,23 @@
   <body>
     <% include ../partials/header %>
     <main class="layout-main">
+      <section>
+        <p>Les articles sont rédigés par la communauté et portent sur différents sujets, comme un personnage emblématique, un peuple oublié, l'histoire d'une région, ou même des zones cachées.</p>
+      </section>
       <section class="action-container">
 	      <a href="/articles/create" class="action-new-article" title="Ajouter un article"><i class="mdi mdi-plus-thick"></i> article</a>
       </section>
 		  <article-container data-mode="list">
         <% data.allArticles.nodes.forEach(article => { %>
-          <article class="article layout-block" itemscope itemtype="http://schema.org/Article" style="<%= article.imageByImageId ? `background-image: radial-gradient(ellipse closest-side, var(--article-list-background-center), var(--article-list-background-border)), url(/assets/img/${article.imageByImageId.id})` : '' %>">
-            <h2 itemprop="name"><a class="article-title" href="/articles/view/<%= article.id %>/<%= article.slug %>" itemprop="url"><%= article.title %></a></h2>
+          <article class="article layout-block" itemscope itemtype="http://schema.org/Article" style="<%= article.imageByImageId ? `background-image: radial-gradient(ellipse closest-side, var(--article-list-background-center), var(--article-list-background-border)), url(/assets/img/${article.imageByImageId.id}.${article.imageByImageId.extension})` : '' %>">
+            <h2 itemprop="name">
+              <a class="article-title" href="/articles/view/<%= article.id %>/<%= article.slug %>" itemprop="url"><%= article.title %></a>
+              <div class="secondary-data">
+                <% if (!article.validatedAt) { %>
+                  <small class="article-unpublished">(non publié)</small>
+                <% } %>
+              </div>
+            </h2>
             <div class="secondary-data">
               <a class="article-author user user-card-small" href="/users/view/<%= article.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">
                 <img class="user-avatar" alt="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" title="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>

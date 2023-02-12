@@ -135,7 +135,7 @@ export default class QuestionElement extends HTMLElement {
 				id: data.id,
 			});
 			Object.assign(img.dataset, {
-				src: `/assets/img/${data.id}`
+				src: `/assets/img/${data.id}.${data.extension}`
 			})
 		} else {
 			Object.assign(input, {
@@ -326,7 +326,7 @@ export default class QuestionElement extends HTMLElement {
 			const image_input_fragment = document.createDocumentFragment();
 			this.images.map(image => {
 				const image_el = document.createElement('img');
-				image_el.dataset.src = `/assets/img/${image.id}`;
+				image_el.dataset.src = `/assets/img/${image.id}.${image.extension}`;
 				image_list_el.appendChild(image_el);
 				image_input_fragment.appendChild(this.createMultiImageRow('input-image', image));
 			});

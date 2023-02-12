@@ -218,14 +218,14 @@ export default class EditorElement extends HTMLElement {
 							body: JSON.stringify({
 								query: `mutation {
 									createImage(input: ${GW2Trivia.parseItemToGraphQL(mutation)} ) {
-										image { id }
+										image { id extension }
 									}
 								}`
 							})
 						})
 							.then(response => response.json())
 							.then(response => response.data.createImage.image);
-						url = `/assets/img/${image.id}`;
+						url = `/assets/img/${image.id}/${image.extension}`;
 					}
 				}
 				const offset = 2;

@@ -19,6 +19,7 @@ const aboutRouter = require('./routes/about');
 const usersRouter = require('./routes/users');
 const questionsRouter = require('./routes/questions');
 const articlesRouter = require('./routes/articles');
+const novelsRouter = require('./routes/novels');
 
 const app = express();
 
@@ -44,6 +45,10 @@ app.use(express.json({ limit: '5MB' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET || 'SuperSecretAAAA'));
 app.use(express.static(path.join(__dirname, 'public'), {
+	dotfiles: 'ignore',
+	maxAge: '7d',
+}));
+app.use(express.static(path.join(__dirname, 'filestore'), {
 	dotfiles: 'ignore',
 	maxAge: '7d',
 }));
@@ -74,6 +79,10 @@ app.use((req, res, next) => {
 
 	if (date.getDate() === 1 && date.getMonth() === 3) {
 		special_date = 'aprilfool';
+	}
+
+	if (date.getMonth() === 11 && date.getDate() <= 25) {
+		special_date = 'christmas';
 	}
 
 	if (req.query.special) {
@@ -125,6 +134,7 @@ app.use('/assets', assetsRouter);
 app.use('/users', usersRouter);
 app.use('/questions', questionsRouter);
 app.use('/articles', articlesRouter);
+app.use('/novels', novelsRouter);
 
 app.use('/api', postgraphile(process.env.DATABASE_URL, [process.env.DATABASE], {
 	appendPlugins: [

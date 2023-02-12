@@ -10,7 +10,7 @@ router.get('/', async function(request, res, next) {
 		allArticles {
 			nodes { 
 				id, slug, title, description, createdAt, updatedAt, validatedAt,
-				imageByImageId { id },
+				imageByImageId { id extension },
 				categories { nodes { id name slug } },
 				userByUserId { id, username, avatarUrl, discriminator } 
 			}
@@ -64,7 +64,7 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 		articleById(id: ${id}) {
 			id, slug, title, description, createdAt, updatedAt, validatedAt, html,
 			pagesByArticleId { nodes { id html } },
-			imageByImageId { id },
+			imageByImageId { id extension },
 			categories { nodes { id name slug } },
 			userByUserId { id, username, avatarUrl, discriminator }
 		}
@@ -88,7 +88,7 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 		res,
 	};
 	if (data.articleById.imageByImageId) {
-		values['image'] = `https://gw2trivia.com/assets/img/${data.articleById.imageByImageId.id}`;
+		values['image'] = `https://gw2trivia.com/assets/img/${data.articleById.imageByImageId.id}.${data.articleById.imageByImageId.extension}`;
 	}
 	res.render('articles/view', values);
 });

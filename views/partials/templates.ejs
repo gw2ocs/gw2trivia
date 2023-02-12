@@ -326,7 +326,7 @@ Integer vestibulum laoreet leo, vel rutrum ex ultricies vitae.
 		<article class="article layout-block" id="article-content-container">
 			<div class="input-group input-full">
 				<label for="article-content-1">Page n°1</label>
-				<markdown-editor rows="30" id="article-content-1" name="markdown"></markdown-editor>
+				<markdown-editor rows="30" id="article-content-1" name="markdown" data-id="new"></markdown-editor>
 			</div>
 		</article>
 		<button type="button" class="action-add-page" title="Ajouter un page"><i class="mdi mdi-plus-thick"></i> page</button>
@@ -341,6 +341,7 @@ Integer vestibulum laoreet leo, vel rutrum ex ultricies vitae.
 <template id="article-list-template">
 	<article class="article layout-block" itemscope itemtype="http://schema.org/Article">
 		<h2 itemprop="name"><a class="article-title" itemprop="url"></a></h2>
+		<small class="article-unpublished" hidden>(non publié)</small>
 		<div class="secondary-data">
 			<a class="article-author user user-card-small" itemprop="author" itemscope itemtype="http://schema.org/Person">
 			  <img class="user-avatar" loading="lazy"/>
@@ -358,6 +359,7 @@ Integer vestibulum laoreet leo, vel rutrum ex ultricies vitae.
 <template id="article-view-template">
 	<article class="article layout-block" itemscope itemtype="http://schema.org/Article">
 		<h2 class="article-title" itemprop="name"></h2>
+		<small class="article-unpublished" hidden>(non publié)</small>
 		<div class="article-actions">
 			<a class="article-action-edit button" hidden>Editer</a>
 			<a class="article-action-delete button button-danger" hidden>Supprimer</a>

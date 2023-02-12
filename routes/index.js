@@ -138,12 +138,27 @@ router.get('/legal', function(req, res, next) {
 	});
 });
 
+/* GET timeline page. */
+router.get('/timeline', function(req, res, next) {
+	res.render('about/timeline', { 
+		title: 'GW2Trivia', 
+		subtitle: 'Chronologie', 
+		description: 'Tester vos connaissances sur l\'univers de Guild Wars en participant à Questions pour un Quaggan, un jeu présenté par Ogden Guéripierre.',
+		keywords: 'questions pour un quaggan, guild wars, gw, gw2, ogden guéripierre, jeu, gw2trivia, trivia, culture, pandraghon, mentions, legal',
+		res,
+	});
+});
+
 router.get('/gw2', function(req, res, next) {
 	return res.redirect('https://www.kqzyfj.com/click-100581015-13024577');
 });
 
 router.get('/f2p', function(req, res, next) {
-	return res.redirect('https://www.jdoqocy.com/click-100581015-14414545 ');
+	return res.redirect('https://www.jdoqocy.com/click-100581015-14414545');
+});
+
+router.get('/discord', function(req, res, next) {
+	return res.redirect('https://discord.gg/EWAzDQN');
 });
 
 module.exports = router;

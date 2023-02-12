@@ -7,11 +7,16 @@
 		  <article-container data-mode="view" data-id="<%= id %>" itemscope itemtype="http://schema.org/Article">
         <article class="article layout-block">
           <h2 class="article-title" itemprop="name"><%= article.title %></h2>
+          <div class="secondary-data">
+          <% if (!article.validatedAt) { %>
+            <small class="article-unpublished">(non publié)</small>
+          <% } %>
+          </div>
           <div class="article-actions">
             <% if (res.req.currentUser && res.req.currentUser.id === article.userByUserId.id || res.req.currentGroup && res.req.currentGroup.isAdmin) { %>
               <a class="article-action-edit button" href="/articles/edit/<%= article.id %>/<%= article.slug %>">Editer</a>
+              <a class="article-action-delete button button-danger" href="#">Supprimer</a>
             <% } %>
-            <a class="article-action-delete button button-danger" hidden>Supprimer</a>
           </div>
           <div class="secondary-data">
             <a class="article-author user user-card-small" href="/users/view/<%= article.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">

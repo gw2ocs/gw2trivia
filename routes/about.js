@@ -45,5 +45,16 @@ router.get('/projects', function(req, res, next) {
 	});
 });
 
+/* GET partners page. */
+router.get('/partners', function(req, res, next) {
+	res.render('about/partners', { 
+		title: 'GW2Trivia', 
+		subtitle: 'Partenaires GW2Trivia', 
+		description: 'Créateurs de contenus participants, d\'une manière ou d\'une autre à l\'activité du projet.',
+		keywords: 'questions pour un quaggan, guild wars, gw, gw2, ogden guéripierre, jeu, gw2trivia, trivia, culture, pandraghon, partner, youtube, book',
+		res,
+	});
+});
+
 module.exports = router;
 

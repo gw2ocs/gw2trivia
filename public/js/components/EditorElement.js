@@ -2,8 +2,14 @@ import ModalElement from './ModalElement.js';
 
 export default class EditorElement extends HTMLElement {
 
-	connectedCallback() {
-		this.render();
+	constructor(options) {
+		super();
+		
+		this.render()
+
+		Object.assign(this, options);
+
+		return this;
 	}
 
 	get content_el() {
@@ -20,6 +26,26 @@ export default class EditorElement extends HTMLElement {
 
 	set value(val) {
 		this.content_el.value = val;
+	}
+
+	get name() {
+		return this.content_el.name;
+	}
+
+	set name(val) {
+		this.content_el.name = val;
+	}
+
+	get id() {
+		return this.content_el.id;
+	}
+
+	set id(val) {
+		this.content_el.id = val;
+	}
+
+	get dataset() {
+		return this.content_el.dataset;
 	}
 
 	render() {
@@ -54,6 +80,8 @@ export default class EditorElement extends HTMLElement {
 			this.previewTimeout = setTimeout(() => { this.preview(); }, 750);
 		});
 		content_el.dispatchEvent(new Event('input'));
+
+		return editor_node;
 	}
 
 	addMarkup({ start, end}) {
@@ -190,14 +218,14 @@ export default class EditorElement extends HTMLElement {
 							body: JSON.stringify({
 								query: `mutation {
 									createImage(input: ${GW2Trivia.parseItemToGraphQL(mutation)} ) {
-										image { id }
+										image { id extension }
 									}
 								}`
 							})
 						})
 							.then(response => response.json())
 							.then(response => response.data.createImage.image);
-						url = `/assets/img/${image.id}`;
+						url = `/assets/img/${image.id}/${image.extension}`;
 					}
 				}
 				const offset = 2;

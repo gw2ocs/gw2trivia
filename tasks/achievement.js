@@ -1,6 +1,7 @@
 module.exports = async (payload, helpers) => {
 	const { schema, table, id, data } = payload;
 	if (schema !== 'gw2trivia' || !['stats', 'questions'].includes(table)) return;
+	if (table === 'stats' && data.guild_snowflake !== '656508733412605962') return;
 	let user_id = '';
 	if (data.user_id) {
 		user_id = data.user_id;

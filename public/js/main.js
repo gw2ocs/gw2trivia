@@ -10,26 +10,28 @@ let current_user = false;
 let current_group = false;
 window.GW2Trivia = {
 	question_fields: `id, slug, fullSlug, title, points, createdAt, validated, spoil,
-                  images { nodes { id } },
+                  images { nodes { id extension } },
 				categories { nodes { id name slug } },
                   userByUserId { id, username, avatarUrl, discriminator },
                   tipsByQuestionId { nodes { id, content } }`,
 	question_fields_with_answers: `id, slug, fullSlug, title, points, createdAt, validated, spoil, notes,
-                  images { nodes { id } },
+                  images { nodes { id extension } },
 		  		categories { nodes { id name slug } },
                   userByUserId { id, username, avatarUrl, discriminator },
                   tipsByQuestionId { nodes { id, content } },
 				  answersByQuestionId { nodes { id, content } }`,
 	article_fields: `id, slug, title, description, createdAt, updatedAt, validatedAt,
-					imageByImageId { id },
+					imageByImageId { id extension },
 					categories { nodes { id name slug } },
 					userByUserId { id, username, avatarUrl, discriminator }`,
 	article_fields_with_html: `id, slug, title, description, createdAt, updatedAt, validatedAt, html,
-					imageByImageId { id },
+					pagesByArticleId { nodes { id html } },
+					imageByImageId { id extension },
 					categories { nodes { id name slug } },
 					userByUserId { id, username, avatarUrl, discriminator }`,
 	article_fields_with_markdown: `id, slug, title, description, createdAt, updatedAt, validatedAt, markdown,
-					imageByImageId { id },
+					pagesByArticleId { nodes { id markdown } },
+					imageByImageId { id extension },
 					categories { nodes { id name slug } },
 					userByUserId { id, username, avatarUrl, discriminator }`,
 	date_format: {
@@ -160,6 +162,27 @@ customElements.define('question-article', QuestionElement);
 customElements.define('pagination-nav', PaginationElement);
 customElements.define('modal-simple', ModalElement);
 
+const manageDarkTheme = () => {
+    const btn = document.querySelector(".toggle-theme");
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme == "dark") {
+        document.body.classList.toggle("dark-mode");
+    } else if (currentTheme == "light") {
+        document.body.classList.toggle("light-mode");
+    }
+    btn.addEventListener("click", function() {
+        if (prefersDarkScheme.matches) {
+            document.body.classList.toggle("light-mode");
+            var theme = document.body.classList.contains("light-mode") ? "light" : "dark";
+        } else {
+            document.body.classList.toggle("dark-mode");
+            var theme = document.body.classList.contains("dark-mode") ? "dark" : "light";
+        }
+        localStorage.setItem("theme", theme);
+    });
+};
+
 const loadQuestions = (container_el) => {
 	const {
 		validated = false,
@@ -253,6 +276,13 @@ const loadMenus = () => {
 	// 		localStorage.clear();
 	// 	});
 	// }
+	document.querySelectorAll('.layout-nav ul').forEach(el => {
+		el.addEventListener('mousemove', e => {
+			const { x, y } = el.getBoundingClientRect();
+			el.style.setProperty('--x', e.clientX - x);
+			el.style.setProperty('--y', e.clientY - y);
+		});
+	})
 };
 
 const loadData = async () => {
@@ -406,6 +436,8 @@ const loadQuestionContainers = () => {
 
 async function main() {
 
+	manageDarkTheme();
+
 	GW2Trivia.markdown = window.markdownit({
 		html:         false,        // Enable HTML tags in source
 		xhtmlOut:     false,        // Use '/' to close single tags (<br />).
@@ -426,7 +458,13 @@ async function main() {
 			figcaption: true,  // <figcaption>alternative text</figcaption>, default: false
 			tabindex: false,   // <figure tabindex="1+n">..., default: false
 			link: true         // <a href="img.png"><img src="img.png"></a>, default: false
-		});
+		})
+		.use(window.markdownItAnchor, { 
+			permalink: window.markdownItAnchor.permalink.ariaHidden({
+				placement: 'after'
+			})
+		 })
+		.use(window.markdownItTocDoneRight);
 
 	GW2Trivia.markdown.renderer.rules.footnote_block_open = () => (
 		'<h3 class="mt-3">Notes :</h3>\n' +

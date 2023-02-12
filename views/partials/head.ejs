@@ -2,8 +2,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="64x64" href="/img/icon_64.png" />
-    <!-- Apple/Safari icon -->
+    <% if (typeof res.special_date !== 'undefined' && res.special_date !== false) { %><link rel="icon" type="image/png" sizes="64x64" href="/img/<%= res.special_date %>/icon_64.png" /><% } else { %><link rel="icon" type="image/png" sizes="64x64" href="/img/icon_64.png" /><% } %>
+    <!--<link rel="apple-touch-icon" sizes="180x180" href="/img/icon_180.png">-->
+        <!-- Apple/Safari icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/img/icon_180.png">
     <!-- Square Windows tiles -->
     <meta name="msapplication-square70x70logo" content="/img/icon_70.png">
@@ -51,6 +52,8 @@
     <link rel="stylesheet" href="/mdi/css/materialdesignicons.min.css"/>
     <link rel='stylesheet' href='/stylesheets/gw2icon.min.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/book.css' />
+    <% if (typeof res.special_date !== 'undefined' && res.special_date !== false) { %><link rel='stylesheet' href='/stylesheets/<%= res.special_date %>.css' /><% } %>
 
     <script src="/markdown-it/markdown-it.min.js" defer></script>
     <script src="/markdown-it-sub/markdown-it-sub.min.js" defer></script>
@@ -59,10 +62,14 @@
     <script src="/markdown-it-mark/markdown-it-mark.min.js" defer></script>
     <script src="/markdown-it-footnote/markdown-it-footnote.min.js" defer></script>
     <script src="/markdown-it-task-lists/markdown-it-task-lists.min.js" defer></script>
+    <script src="/markdown-it-anchor/markdownItAnchor.umd.js" defer></script>
+    <script src="/markdown-it-toc-done-right/markdownItTocDoneRight.umd.js" defer></script>
     <script src="/js/markdown-it/markdown-it-figure.js" defer></script>
+    <script src="/js/book.js" defer></script>
     <link rel="preload" href="/js/components/QuestionElement.js" as="script" crossorigin="anonymous"/>
     <link rel="preload" href="/js/components/PaginationElement.js" as="script" crossorigin="anonymous"/>
     <link rel="preload" href="/js/components/ModalElement.js" as="script" crossorigin="anonymous"/>
     <link rel="preload" href="/js/components/EditorElement.js" as="script" crossorigin="anonymous"/>
     <script src="/js/main.js" type="module" defer></script>
+    <% if (typeof res.special_date !== 'undefined' && res.special_date !== false) { %><script src="/js/<%= res.special_date %>.js" type="module" defer></script><% } %>
 </head>

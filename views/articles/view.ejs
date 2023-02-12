@@ -4,7 +4,50 @@
   <body>
     <% include ../partials/header %>
     <main class="layout-main">
-		  <article-container data-mode="view" data-id="<%= id %>"></article-container>
+		  <article-container data-mode="view" data-id="<%= id %>" itemscope itemtype="http://schema.org/Article">
+        <article class="article layout-block">
+          <h2 class="article-title" itemprop="name"><%= article.title %></h2>
+          <div class="secondary-data">
+          <% if (!article.validatedAt) { %>
+            <small class="article-unpublished">(non publié)</small>
+          <% } %>
+          </div>
+          <div class="article-actions">
+            <% if (res.req.currentUser && res.req.currentUser.id === article.userByUserId.id || res.req.currentGroup && res.req.currentGroup.isAdmin) { %>
+              <a class="article-action-edit button" href="/articles/edit/<%= article.id %>/<%= article.slug %>">Editer</a>
+              <a class="article-action-delete button button-danger" href="#">Supprimer</a>
+            <% } %>
+          </div>
+          <div class="secondary-data">
+            <a class="article-author user user-card-small" href="/users/view/<%= article.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <img class="user-avatar" alt="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" title="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
+              <span class="user-name" itemprop="name"><%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %></span>
+            </a>
+          </div>
+          <div class="secondary-data">
+            <a class="article-link" href="/articles/view/<%= article.id %>/<%= article.slug %>" itemprop="url"><time class="article-creation-date" datetime="<%= new Date(article.createdAt).toISOString() %>" itemprop="dateCreated"><%= new Date(article.createdAt).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %></time></a>
+            <% if (article.categories.nodes.length) { %>
+              <ul class="article-categories article-has-categories">
+                <% article.categories.nodes.forEach(category => { %>
+                  <li><a href="/questions?categories=<%= category.id %>"><%= category.name %></a></li>
+                <% }) %>
+              </ul>
+            <% } %>
+            </div>
+          <p class="article-description" itemprop="description"><%- article.description.escapeHtml().replace(/\n/g, '<br/>') %></p>
+          <div class="table-of-contents" hidden></div>
+        </article>
+        <div class="article-content" itemprop="articleBody">
+          <% article.pagesByArticleId.nodes.forEach(page => { %>
+            <article class="article layout-block"><%- page.html %></article>
+          <% }) %>
+        </div>
+        <article class="article layout-block">
+          <p class="secondary-data">
+            Vous pouvez échanger à propos de cet article sur le salon #discussion du <a href="https://discord.gg/YpcMnDY" rel="noreferrer" target="_blank">Discord de Questions pour un Quaggan.</a>
+          </p>
+        </article>
+      </article-container>
     </main>
     <% include ../partials/templates %>
 

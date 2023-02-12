@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <% include ../partials/head %>
+  <body>
+    <% include ../partials/header %>
+    <main class="layout-main">
+      <article class="layout-block page">
+        <h2 class="article-title" itemprop="name"><%= novel.title %></h2>
+        <div class="secondary-data">
+          <a class="article-author user user-card-small" href="/users/view/<%= novel.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <img class="user-avatar" alt="<%= novel.userByUserId.username %>#<%= novel.userByUserId.discriminator %>" title="<%= novel.userByUserId.username %>#<%= novel.userByUserId.discriminator %>" src="<%= novel.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
+            <span class="user-name" itemprop="name"><%= novel.userByUserId.username %>#<%= novel.userByUserId.discriminator %></span>
+          </a>
+        </div>
+        <details open="true" style="text-align: center; max-width: 500px; margin: 1em auto;">
+          <summary>Résumé</summary>
+          <%- novel.summary.replace(/\n/g, '<br/>') %>
+        </details>
+        <div id="novel-actions">
+          <% if (novel.pdf) { %>
+            <div>PDF : <a href="<%= `/${novel.path}/${novel.pdf}` %>" download><i class="mdi mdi-download" aria-hidden="true"></i> Télécharger</a> ou <a href="#" class="novel-read-pdf" data-link="<%= `/${novel.path}/${novel.pdf}` %>"><i class="mdi mdi-eye-outline" aria-hidden="true"></i> Consulter</a></div>
+          <% } %>
+          <% if (novel.epub) { %>
+            <div>ePub : <a href="<%= `/${novel.path}/${novel.epub}` %>" download><i class="mdi mdi-download" aria-hidden="true"></i> Télécharger</a></div>
+          <% } %>
+          <% if (novel.youtube) { %>
+            <div>Ecouter : <a href="<%= novel.youtube %>" target="_blank" rel="noreferrer"><i class="mdi mdi-youtube" aria-hidden="true"></i> Youtube</a></div>
+          <% } %>
+        </div>
+
+        <div class="novel-pdf">
+          <div class="novel-covers">
+            <img src="<%= `/${novel.path}/${novel.cover}` %>" alt="Couverture"/>
+            <!--<img src="<%= `/${novel.path}/${novel.backCover}` %>" alt="4e de couverture"/>-->
+          </div>
+          <object data="" type="application/pdf" width="100%" style="height:90vh;resize:both" hidden>
+            <param name="view" value="Fit" />
+            <p>Impossible de charger le PDF : <a href="<%= `/${novel.path}/${novel.pdf}` %>" download>le télécharger</a></p>
+          </object>            
+        </div>
+      </article>
+    </main>
+    <% include ../partials/templates %>
+
+    <% include ../partials/footer %>
+    <script>
+      (() => {
+        const showPDFBtn = document.querySelector('.novel-read-pdf');
+        const PDFViewer = document.querySelector('.novel-pdf object');
+        const coverImg = document.querySelector('.novel-pdf .novel-covers');
+        showPDFBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          PDFViewer.setAttribute('data', showPDFBtn.dataset.link);
+          PDFViewer.hidden = false;
+          coverImg.style = 'display: none';
+
+          return false;
+        })
+      })();
+    </script>
+  </body>
+</html>

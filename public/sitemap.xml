@@ -18,4 +18,10 @@
       <changefreq>daily</changefreq>
       <priority>0.5</priority>
    </url>
+   <url>
+      <loc>https://gw2trivia.com/novels</loc>
+      <lastmod>2023-01-25</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.5</priority>
+   </url>
 </urlset> 

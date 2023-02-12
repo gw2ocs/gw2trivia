@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <% include ../partials/head %>
+  <body>
+    <% include ../partials/header %>
+    <main class="layout-main">
+		  <ul class="book-list">
+        <% data.allNovels.nodes.forEach(article => { %>
+          <li>
+            <figure class="book-container">
+
+              <div class="book">
+
+                <div class="book-front">
+                  <div class="book-cover" style="background-image: url(<%= `/${article.path}/${article.cover}` %>)">
+                    <h2 hidden>
+                      <span class="book-collection"><%= article.collection %></span>
+                      <span class="book-title"><%= article.title %></span>
+                    </h2>
+                  </div>
+                  <div class="book-cover-back"></div>
+                </div>
+              
+                <div class="book-page">
+                  <div class="book-content book-content-current">
+                    <p></p>
+                  </div>
+                </div>
+              
+                <div class="book-back" style="background-image: url(<%= `/${article.path}/${article.backCover}` %>)">
+                  <p hidden><%= article.summary %></p>
+                </div>
+              
+                <div class="book-right"></div>
+              
+                <div class="book-left">
+                  <h2>
+                    <span class="book-collection"><%= article.collection %></span>
+                    <span class="book-title"><%= article.title %></span>
+                  </h2>
+                </div>
+              
+                <div class="book-top"></div>
+              
+                <div class="book-bottom"></div>
+              </div>
+              
+              <figcaption>
+                <h2 itemprop="name">
+                  <a class="article-title" href="/novels/view/<%= article.id %>/<%= article.slug %>" itemprop="url">
+                    <%= article.title %>
+                    <% if (article.collection) { %>
+                      <br/><small><%= article.collection %>
+                      <% if (article.volume) { %>
+                        - Tome&nbsp;<%= article.volume %>
+                      <% } %>
+                      </small>
+                    <% } %>
+                  </a>
+                </h2>
+                <a class="article-author user user-card-small" href="/users/view/<%= article.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                  <img class="user-avatar" alt="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" title="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
+                  <span class="user-name" itemprop="name"><%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %></span>
+                </a>
+                <p><%- article.shortSummary.replace(/\n/g, '<br/>') %></p>
+              </figcaption>
+            </figure>
+          </li>
+        <% }); %>
+        </ul>
+    </main>
+    <% include ../partials/templates %>
+
+    <% include ../partials/footer %>
+  </body>
+</html>

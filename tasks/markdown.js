@@ -1,3 +1,4 @@
+const anchor = require('markdown-it-anchor');
 const md = require('markdown-it')({
 	html:         false,        // Enable HTML tags in source
 	xhtmlOut:     false,        // Use '/' to close single tags (<br />).
@@ -13,6 +14,12 @@ const md = require('markdown-it')({
 	.use(require('markdown-it-abbr'))
 	.use(require('markdown-it-mark'))
 	.use(require('markdown-it-task-lists'))
+	.use(anchor, { 
+		permalink: anchor.permalink.ariaHidden({
+			placement: 'after'
+		})
+	})
+	.use(require('markdown-it-toc-done-right'))
 	.use(require('../public/js/markdown-it/markdown-it-figure.js'), {
 		dataType: false,  // <figure data-type="image">, default: false
 		figcaption: true,  // <figcaption>alternative text</figcaption>, default: false
@@ -21,7 +28,7 @@ const md = require('markdown-it')({
 	});
 
 md.renderer.rules.footnote_block_open = () => (
-	'<h1 class="mt-3">Notes :</h1>\n' +
+	'<h1 class="mt-3 footnotes-title">Notes :</h1>\n' +
 	'<section class="footnotes">\n' +
 	'<ol class="footnotes-list">\n'
 );

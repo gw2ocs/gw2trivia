@@ -117,3 +117,8 @@ dist
 
 # PM2 config
 ecosystem.config.js
+
+# Filestore
+filestore/*
+!filestore/assets/img/.empty
+!filestore/novels/.empty

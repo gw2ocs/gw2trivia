@@ -43,7 +43,6 @@
     "markdown-it-toc-done-right": "^4.2.0",
     "mime": "^2.4.4",
     "morgan": "^1.9.1",
-    "mozjpeg": "^8.0.0",
     "node-fetch": "^2.6.1",
     "postgraphile": "^4.5.0",
     "postgraphile-plugin-connection-filter": "^1.1.3",

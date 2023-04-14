@@ -122,3 +122,6 @@ ecosystem.config.js
 filestore/*
 !filestore/assets/img/.empty
 !filestore/novels/.empty
+
+# Databases
+db/

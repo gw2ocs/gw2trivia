@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  node:
+    build: .
+    networks:
+      - proxy
+      - default
+    volumes:
+      - .:/usr/src/app
+      - ./filestore:/usr/src/app/filestore
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    env_file:
+      - .env
+    command: npm start
+
+  postgres:
+    image: postgres:latest
+    networks:
+      - default
+    restart: always
+    volumes:
+      - ./db/postgresql:/var/lib/postgresql
+      - ./db/postgresql/data:/var/lib/postgresql/data
+      - ./db/initdb:/docker-entrypoint-initdb.d/
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+networks:
+  proxy:
+    external: true

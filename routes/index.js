@@ -69,7 +69,7 @@ router.get('/login_callback', async function (req, res, next) {
 		headers: { Authorization: `${token_response.token_type} ${token_response.access_token}` },
 	}).then(response => response.json());
 
-	const user = await fetch('https://gw2trivia.com/api/graphql', {
+	const user_data = await fetch('https://gw2trivia.com/api/graphql', {
 		method: 'post',
 		headers: {
 			Accept: 'application/json',
@@ -91,11 +91,12 @@ router.get('/login_callback', async function (req, res, next) {
 			}`
 		})
 	}).then(response => response.json())
-	.then(response => response.data.insertOrUpdateUser.user)
 		.catch(err => console.error(err));
-	if (!user) {
+	if (!(user_data.data && user_data.data.insertOrUpdateUser && user_data.data.insertOrUpdateUser.user)) {
+		console.error(user_data.errors);
 		res.redirect('/');
 	}
+	const { user } = user_data.data.insertOrUpdateUser; 
 	const token = jwt.sign({ aud: process.env.JWT_AUD, role: process.env.PG_USER_ROLE, user_id: user.id  }, process.env.JWT_SECRET);
 	res.locals.token = token;
 	res.cookie('token', token, { maxAge: 7 * 24 * 3600 * 1000, httpOnly: true, signed: true, sameSite: true });

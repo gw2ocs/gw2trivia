@@ -3,33 +3,40 @@ version: '3'
 services:
   node:
     build: .
+    image: gw2trivia-node:${GW2TRIVIA_VERSION:-latest}
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
     networks:
       - proxy
       - default
+      - gw2trivia_bridge
     volumes:
-      - .:/usr/src/app
-      - ./filestore:/usr/src/app/filestore
+      - ./${NODE_ENV:-production}/filestore:/usr/src/app/filestore
       - /usr/src/app/node_modules
     ports:
-      - 3000:3000
-      - 9229:9229
+      - ${NODE_PORT:-3000}:3000
+      - ${NODE_DEBUGGER_PORT:-9229}:9229
     env_file:
-      - .env
+      - .env.${NODE_ENV:-production}
     command: npm start
 
   postgres:
     image: postgres:latest
     networks:
       - default
+      - gw2trivia_bridge
     restart: always
     volumes:
-      - ./db/postgresql:/var/lib/postgresql
-      - ./db/postgresql/data:/var/lib/postgresql/data
-      - ./db/initdb:/docker-entrypoint-initdb.d/
+      - ./${NODE_ENV:-production}/db/postgresql:/var/lib/postgresql
+      - ./${NODE_ENV:-production}/db/postgresql/data:/var/lib/postgresql/data
+      - ./${NODE_ENV:-production}/db/initdb:/docker-entrypoint-initdb.d/
     env_file:
-      - .env
+      - .env.${NODE_ENV:-production}
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT:-5432}:5432
 networks:
   proxy:
+    external: true
+  gw2trivia_bridge:
+    name: gw2trivia_${NODE_ENV:-production}_bridge
     external: true

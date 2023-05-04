@@ -9,3 +9,6 @@ README.md
 LICENSE
 .vscode
 db
+filestore
+production
+development

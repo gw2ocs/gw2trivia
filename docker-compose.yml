@@ -4,6 +4,7 @@ services:
   node:
     build: .
     image: gw2trivia-node:${GW2TRIVIA_VERSION:-latest}
+    restart: unless-stopped
     environment:
       - NODE_ENV=${NODE_ENV:-production}
     networks:
@@ -22,6 +23,7 @@ services:
 
   postgres:
     image: postgres:latest
+    restart: unless-stopped
     networks:
       - default
       - gw2trivia_bridge

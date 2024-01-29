@@ -7,6 +7,7 @@ const { postgraphile } = require('postgraphile');
 const fetch = require('node-fetch');
 const { run } = require("graphile-worker");
 const { GraphQLClient, gql } = require('graphql-request');
+const pg = require('pg');
 
 const PgManyToManyPlugin = require('@graphile-contrib/pg-many-to-many');
 const PgByteaPlugin = require('./plugins/pg-bytea');
@@ -20,6 +21,7 @@ const usersRouter = require('./routes/users');
 const questionsRouter = require('./routes/questions');
 const articlesRouter = require('./routes/articles');
 const novelsRouter = require('./routes/novels');
+const qpubRouter = require('./routes/qpub');
 
 const app = express();
 
@@ -107,6 +109,13 @@ app.use(async (req, res, next) => {
 		};
 	}
 	res.graphQLClient = new GraphQLClient('https://gw2trivia.com/api/graphql', graphOptions);
+	res.postgresClient = new pg.Client({
+		host: process.env.POSTGRES_HOST,
+		port: process.env.POSTGRES_PORT,
+		database: process.env.POSTGRES_DB,
+		user: process.env.POSTGRES_USER,
+		password: process.env.POSTGRES_PASSWORD
+	});
 	if (token) {
 		const query = gql`
 		{
@@ -135,6 +144,7 @@ app.use('/users', usersRouter);
 app.use('/questions', questionsRouter);
 app.use('/articles', articlesRouter);
 app.use('/novels', novelsRouter);
+app.use('/qpub', qpubRouter);
 
 app.use('/api', postgraphile(process.env.DATABASE_URL, [process.env.DATABASE], {
 	appendPlugins: [

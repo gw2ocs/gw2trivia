@@ -27,7 +27,6 @@ services:
     networks:
       - default
       - gw2trivia_bridge
-    restart: always
     volumes:
       - ./${NODE_ENV:-production}/db/postgresql:/var/lib/postgresql
       - ./${NODE_ENV:-production}/db/postgresql/data:/var/lib/postgresql/data

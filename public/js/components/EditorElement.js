@@ -225,7 +225,7 @@ export default class EditorElement extends HTMLElement {
 						})
 							.then(response => response.json())
 							.then(response => response.data.createImage.image);
-						url = `/assets/img/${image.id}/${image.extension}`;
+						url = `/assets/img/${image.id}`;
 					}
 				}
 				const offset = 2;

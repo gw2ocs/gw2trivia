@@ -290,6 +290,9 @@ const loadData = async () => {
 		// users
 		`allUsers { nodes { id username discriminator } }`,
 
+		// users with questions
+		`allUsersWithQuestions: allUsers(filter: {questionsByUserIdExist: true}) { nodes { id username discriminator } }`,
+
 		// categories
 		`allCategories { nodes { id name slug } }`,
 	];
@@ -308,6 +311,7 @@ const loadData = async () => {
 		.then(data => {
 		   Object.assign(GW2Trivia, {
 			   all_users: data.data.allUsers.nodes, 
+			   all_users_with_questions: data.data.allUsersWithQuestions.nodes,
 			   all_categories: data.data.allCategories.nodes
 			});
 		});
@@ -342,7 +346,7 @@ const loadSearch = () => {
 	const title_input = search_form.querySelector('input[name=title]');
 	const limit_input = search_form.querySelector('input[name=limit]');
 
-	const { all_users, all_categories } = GW2Trivia;
+	const { all_users_with_questions, all_categories } = GW2Trivia;
 
 	const create_user_option = (data) => {
 		const user_option = document.createElement('option');
@@ -356,8 +360,8 @@ const loadSearch = () => {
 		value: '',
 		textContent: 'Tous'
 	}));
-	for (let i = 0, imax = all_users.length ; i < imax ; i++) {
-		const user = all_users[i];
+	for (let i = 0, imax = all_users_with_questions.length ; i < imax ; i++) {
+		const user = all_users_with_questions[i];
 		user_select.appendChild(create_user_option({
 			value: user.id,
 			textContent: `${user.username}#${user.discriminator}`

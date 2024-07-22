@@ -291,7 +291,7 @@ const loadData = async () => {
 		`allUsers { nodes { id username discriminator } }`,
 
 		// users with questions
-		`allUsersWithQuestions: allUsers(filter: {questionsByUserIdExist: true}) { nodes { id username discriminator } }`,
+		`allUsersWithQuestions: allUsers(filter: {questionsByUserIdExist: true}, orderBy: USERNAME_ASC) { nodes { id username discriminator } }`,
 
 		// categories
 		`allCategories { nodes { id name slug } }`,

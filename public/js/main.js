@@ -444,8 +444,6 @@ async function main() {
 	
 	manageDarkTheme();
 
-	manageDarkTheme();
-
 	GW2Trivia.markdown = window.markdownit({
 		html:         false,        // Enable HTML tags in source
 		xhtmlOut:     false,        // Use '/' to close single tags (<br />).

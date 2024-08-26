@@ -171,7 +171,8 @@ const manageDarkTheme = () => {
     } else if (currentTheme == "light") {
         document.body.classList.toggle("light-mode");
     }
-    btn.addEventListener("click", function() {
+    btn.addEventListener("click", function(e) {
+		e.preventDefault();
         if (prefersDarkScheme.matches) {
             document.body.classList.toggle("light-mode");
             var theme = document.body.classList.contains("light-mode") ? "light" : "dark";
@@ -180,6 +181,7 @@ const manageDarkTheme = () => {
             var theme = document.body.classList.contains("dark-mode") ? "dark" : "light";
         }
         localStorage.setItem("theme", theme);
+		return false;
     });
 };
 

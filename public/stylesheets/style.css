@@ -281,14 +281,12 @@ sup {
 
 .layout-footer {
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	align-items: center;
-	height: 222px;
-	padding-top: 120px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: start;
+	padding: 120px 5% 10px 5%;;
 	position: relative;
 	text-shadow: 0 0 10px var(--layout-footer-text-shadow);
-	text-align: center;
 	box-sizing: content-box;
 }
 
@@ -304,6 +302,14 @@ sup {
 	right: 0;
 	content: '';
 	opacity: 0.5;
+}
+
+.layout-footer ul {
+	position: relative;
+	white-space: nowrap;
+	list-style: none;
+	padding-inline: 0;
+	padding: 0 12px;
 }
 
 .layout-footer p {
@@ -1039,5 +1045,12 @@ article-container[data-mode=view] li p {
 
 	.home-ogden {
 		order: 2;
+	}
+
+	.layout-footer {
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+		text-align: center;
 	}
 }

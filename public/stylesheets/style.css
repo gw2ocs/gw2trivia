@@ -962,6 +962,10 @@ article-container[data-mode=view] li p {
 	text-indent: unset;
 }
 
+.article-audio audio {
+	width: 75%;
+}
+
 .footnotes {
 	font-size: .75em;
 }

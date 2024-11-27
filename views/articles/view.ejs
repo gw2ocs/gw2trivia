@@ -20,8 +20,8 @@
           </div>
           <div class="secondary-data">
             <a class="article-author user user-card-small" href="/users/view/<%= article.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">
-              <img class="user-avatar" alt="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" title="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
-              <span class="user-name" itemprop="name"><%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %></span>
+              <img class="user-avatar" alt="<%= article.userByUserId.username %>" title="<%= article.userByUserId.username %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
+              <span class="user-name" itemprop="name"><%= article.userByUserId.username %></span>
             </a>
           </div>
           <div class="secondary-data">
@@ -35,6 +35,16 @@
             <% } %>
             </div>
           <p class="article-description" itemprop="description"><%- article.description.escapeHtml().replace(/\n/g, '<br/>') %></p>
+          <div class="article-audio audio-player">
+            <% if (article.audioSrc) { %>
+            <figure>
+              <figcaption>Écoutez l'article :</figcaption>
+              <audio controls>
+                <source src="<%= article.audioSrc %>" type="<%= article.audioType %>">
+              </audio>
+            </figure>
+            <% } %>
+          </div>
           <div class="table-of-contents" hidden></div>
         </article>
         <div class="article-content" itemprop="articleBody">

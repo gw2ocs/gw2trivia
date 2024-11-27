@@ -62,7 +62,7 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 	const query = gql`
 	{
 		articleById(id: ${id}) {
-			id, slug, title, description, createdAt, updatedAt, validatedAt, html,
+			id, slug, title, description, createdAt, updatedAt, validatedAt, html, audioSrc, audioType,
 			pagesByArticleId { nodes { id html } },
 			imageByImageId { id extension },
 			categories { nodes { id name slug } },
@@ -81,7 +81,7 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 		id,
 		type: 'article',
 		section: 'Articles',
-		author: `${data.articleById.userByUserId.username}#${data.articleById.userByUserId.discriminator}`,
+		author: `${data.articleById.userByUserId.username}`,
 		published_time: data.articleById.createdAt,
 		data,
 		article: data.articleById,

@@ -366,7 +366,7 @@ const loadSearch = () => {
 		const user = all_users_with_questions[i];
 		user_select.appendChild(create_user_option({
 			value: user.id,
-			textContent: `${user.username}#${user.discriminator}`
+			textContent: `${user.username}`
 		}));
 	}
 
@@ -503,7 +503,7 @@ async function main() {
 
 	if (current_user) {
 		document.querySelector('#profile-link .user-avatar').src = `${current_user.avatarUrl}?size=128`;
-		document.querySelector('#profile-link .user-name').innerText = `${current_user.username}#${current_user.discriminator}`;
+		document.querySelector('#profile-link .user-name').innerText = `${current_user.username}`;
 		document.querySelector('#profile-link #nav-profile').href = `/users/view/${current_user.id}`;
 		document.getElementById('profile-link').hidden = false;
 		document.getElementById('logout-link').hidden = false;

@@ -43,12 +43,12 @@ export default class ArticleElement extends HTMLElement {
 		});
 		description_el.textContent = this.article.description;
 		description_el.innerHTML = description_el.innerHTML.replace(/\n/gi, '<br/>');
-		el.querySelector('.user-name').textContent = `${this.article.userByUserId.username}#${this.article.userByUserId.discriminator}`;
+		el.querySelector('.user-name').textContent = `${this.article.userByUserId.username}`;
 		el.querySelector('.article-author').href = `/users/view/${this.article.userByUserId.id}`;
 		Object.assign(el.querySelector('.user-avatar'), {
 			src: `${this.article.userByUserId.avatarUrl}?size=128`,
-			alt: `${this.article.userByUserId.username}#${this.article.userByUserId.discriminator}`,
-			title: `${this.article.userByUserId.username}#${this.article.userByUserId.discriminator}`,
+			alt: `${this.article.userByUserId.username}`,
+			title: `${this.article.userByUserId.username}`,
 		});
 		Object.assign(el.querySelector('.article-creation-date'), {
 			dateTime: new Date(this.article.createdAt).toISOString(),
@@ -205,12 +205,12 @@ previous: allArticles(last: 1, filters: { validatedAt: { isNull: false, lessThan
 		description_el.textContent = this.article.description;
 		description_el.innerHTML = description_el.innerHTML.replace(/\n/gi, '<br/>');
 		content_el.innerHTML = this.article.html;
-		el.querySelector('.user-name').textContent = `${this.article.userByUserId.username}#${this.article.userByUserId.discriminator}`;
+		el.querySelector('.user-name').textContent = `${this.article.userByUserId.username}`;
 		el.querySelector('.article-author').href = `/users/view/${this.article.userByUserId.id}`;
 		Object.assign(el.querySelector('.user-avatar'), {
 			src: `${this.article.userByUserId.avatarUrl}?size=128`,
-			alt: `${this.article.userByUserId.username}#${this.article.userByUserId.discriminator}`,
-			title: `${this.article.userByUserId.username}#${this.article.userByUserId.discriminator}`,
+			alt: `${this.article.userByUserId.username}`,
+			title: `${this.article.userByUserId.username}`,
 		});
 		Object.assign(el.querySelector('.article-creation-date'), {
 			dateTime: new Date(this.article.createdAt).toISOString(),

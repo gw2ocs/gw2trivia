@@ -124,10 +124,10 @@
                     answered: user.answered,
                 });
 
-                player_line_el.querySelector('.user-name').textContent = `${user.username}#${user.discriminator}`;
+                player_line_el.querySelector('.user-name').textContent = `${user.username}`;
                 Object.assign(player_line_el.querySelector('.user-avatar'), {
                     src: `${user.avatarUrl}?size=128`,
-                    alt: `${user.username}#${user.discriminator}`,
+                    alt: `${user.username}`,
                 });
                 player_line_el.querySelector('.user').href = `/users/view/${user.id}`;
                 player_line_el.querySelector('td[headers*="stats-questions-created"]').textContent = user.questionsByUserId.totalCount;

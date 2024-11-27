@@ -7,9 +7,9 @@
       <section class="user-container" data-id="<%= id %>">
         <article class="user layout-block">
           <div class="user-card-big">
-            <img class="user-avatar" src="<%= record.avatarUrl %>" alt="<%= record.username %>#<%= record.discriminator %>" width="128" height="128"/>
+            <img class="user-avatar" src="<%= record.avatarUrl %>" alt="<%= record.username %>" width="128" height="128"/>
             <div class="user-info">
-              <h2 class="user-name"><%= record.username %>#<%= record.discriminator %></h2>
+              <h2 class="user-name"><%= record.username %></h2>
               <dl>
                 <dt>Questions</dt>
                 <dd class="user-info-questions"><%= record.questionsByUserId.totalCount %></dd>

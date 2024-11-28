@@ -23,8 +23,8 @@
             </h2>
             <div class="secondary-data">
               <a class="article-author user user-card-small" href="/users/view/<%= article.userByUserId.id %>" itemprop="author" itemscope itemtype="http://schema.org/Person">
-                <img class="user-avatar" alt="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" title="<%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
-                <span class="user-name" itemprop="name"><%= article.userByUserId.username %>#<%= article.userByUserId.discriminator %></span>
+                <img class="user-avatar" alt="<%= article.userByUserId.username %>" title="<%= article.userByUserId.username %>" src="<%= article.userByUserId.avatarUrl %>?size=128" loading="lazy"/>
+                <span class="user-name" itemprop="name"><%= article.userByUserId.username %></span>
               </a>
             </div>
             <div class="secondary-data">

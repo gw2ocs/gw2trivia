@@ -61,7 +61,7 @@ router.get('/view/:id/:slug', async function(request, res, next) {
 			id,
 			type: 'article',
 			section: 'Questions',
-			author: `${response.data.questionById.userByUserId.username}#${response.data.questionById.userByUserId.discriminator}`,
+			author: `${response.data.questionById.userByUserId.username}`,
 			published_time: response.data.questionById.createdAt,
 			res,
 		}))

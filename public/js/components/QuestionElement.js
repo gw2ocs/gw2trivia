@@ -181,21 +181,21 @@ export default class QuestionElement extends HTMLElement {
 		});
 		question_el.querySelector('.question-header .question-points').prepend(this.question.points);
 		question_el.querySelector('.question-header .question-tips-count').prepend(this.tips.length);
-		question_el.querySelector('.question-header .user-name').textContent = `${this.user.username}#${this.user.discriminator}`;
+		question_el.querySelector('.question-header .user-name').textContent = `${this.user.username}`;
 		Object.assign(question_el.querySelector('.question-header .user-avatar'), {
 			src: `${this.user.avatarUrl}?size=128`,
-			alt: `${this.user.username}#${this.user.discriminator}`,
-			title: `${this.user.username}#${this.user.discriminator}`,
+			alt: `${this.user.username}`,
+			title: `${this.user.username}`,
 		});
 		Object.assign(question_el.querySelector('.question-header .question-creation-date'), {
 			dateTime: new Date(this.question.createdAt).toISOString(),
 			textContent: new Date(this.question.createdAt).toLocaleDateString(window.navigator.language, date_format),
 		});
-		question_el.querySelector('.question-details .user-name').textContent = `${this.user.username}#${this.user.discriminator}`;
+		question_el.querySelector('.question-details .user-name').textContent = `${this.user.username}`;
 		question_el.querySelector('.question-details .question-author').href = `/users/view/${this.user.id}`;
 		Object.assign(question_el.querySelector('.question-details .user-avatar'), {
 			src: `${this.user.avatarUrl}?size=128`,
-			alt: `${this.user.username}#${this.user.discriminator}`,
+			alt: `${this.user.username}`,
 		});
 		Object.assign(question_el.querySelector('.question-details .question-creation-date'), {
 			dateTime: new Date(this.question.createdAt).toISOString(),

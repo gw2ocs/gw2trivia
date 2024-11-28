@@ -33,9 +33,9 @@ router.get('/view/:id', async function(request, res, next) {
 		.then(response => res.render('users/view', {
 			title: 'GW2Trivia',
 			subtitle: 'Utilisateur',
-			description: `Profil de ${response.data.userById.username}#${response.data.userById.discriminator}`,
+			description: `Profil de ${response.data.userById.username}`,
 			keywords: 'questions pour un quaggan, guild wars, gw, gw2, jeu, gw2trivia, trivia, culture, pandraghon',
-			page_title: `${response.data.userById.username}#${response.data.userById.discriminator}`,
+			page_title: `${response.data.userById.username}`,
 			id,
 			type: 'article',
 			section: 'Utilisateurs',

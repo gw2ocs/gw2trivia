@@ -1,0 +1,9 @@
+<section class="announcement-container">
+	<% for (announce of res.allAnnouncements.nodes) { %>
+	<div class="alert alert-<%= announce.type %>" data-alert-id="<%= announce.id %>">
+		<div class="close">X</div>
+		<div class="alert-summary"><%- announce.summary %></div>
+		<div class="alert-content"><%- announce.content %></div>
+	</div>
+	<% } %>
+</section>

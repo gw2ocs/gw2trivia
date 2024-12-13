@@ -440,6 +440,25 @@ const loadQuestionContainers = () => {
 	}
 };
 
+const hideClosedAnnouncements = () => {
+	const alerts = document.querySelectorAll('.alert');
+	const imax = alerts.length;
+	const closedAlerts = JSON.parse(localStorage.getItem('closedAlerts') || '[]');
+	for (let i = 0 ; i < imax ; i++) {
+		const alert = alerts[i],
+			id = alert.dataset.alertId;
+		if (closedAlerts.includes(id)) {
+			alert.hidden = true;
+			continue;
+		}
+		alert.querySelector('.close').addEventListener('click', (e) => {
+			e.stopPropagation();
+			alert.hidden = true;
+			localStorage.setItem('closedAlerts', JSON.stringify(JSON.parse(localStorage.getItem('closedAlerts') || '[]') + [id]));
+		});
+	}
+}
+
 async function main() {
 	
 	manageDarkTheme();
@@ -513,6 +532,7 @@ async function main() {
 		GW2Trivia.current_group = current_group;
 	}
 
+	hideClosedAnnouncements();
 	loadActions();
 	loadMenus();
 	GW2Trivia.init_promises.push(loadData());

@@ -134,6 +134,31 @@ app.use(async (req, res, next) => {
 			console.error("Failed to fetch current user");
 		}
 	}
+	{
+		const now = new Date().toISOString();
+		const query = gql`
+		{
+			allAnnouncements(filter: {and: [
+				{or: [
+					{startAt: {isNull: true}},
+					{startAt: {lessThanOrEqualTo: "${now}"}}
+				]},
+				{or: [
+					{endAt: {isNull: true}},
+					{endAt: {greaterThanOrEqualTo: "${now}"}}
+				]}
+			]}) {
+				nodes { id summary content type }
+			}
+		}
+		`;
+		try {
+			const { data } = await res.graphQLClient.rawRequest(query);
+			Object.assign(res, data);
+		} catch (e) {
+			console.error("Failed to fetch announcements");
+		}
+	}
 	next();
 })
 

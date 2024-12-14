@@ -75,39 +75,6 @@ for (let i = modules.length - 1 ; i >= 0 ; --i) {
 	}));
 }
 
-app.use('/api', postgraphile(process.env.DATABASE_URL, [process.env.DATABASE], {
-	appendPlugins: [
-		PgByteaPlugin,
-		PgManyToManyPlugin,
-		ConnectionFilterPlugin,
-		PostGraphileNestedMutations,
-	],
-	graphileBuildOptions: {
-		nestedMutationsSimpleFieldNames: true,
-		connectionFilterRelations: true,
-	},
-	/*pgSettings: async req => {
-		const settings = {};
-		const { token } = req.signedCookies;
-		if (token) {
-			settings['http.headers.Authorization'] = `Bearer ${token}`;
-		}
-		return settings;
-	},*/
-	pgDefaultRole: process.env.PG_DEFAULT_ROLE,
-	ignoreRBAC: false,
-	ignoreIndexes: true,
-	bodySizeLimit: '5MB',
-	dynamicJson: true,
-	graphqlRoute: "/graphql",
-	graphiql: true,
-	enhanceGraphiql: true,
-	graphiqlRoute: "/graphiql",
-	enableQueryBatching: true,
-	jwtSecret: process.env.JWT_SECRET,
-	jwtPgTypeIdentifier: process.env.JWT_TOKEN,
-}));
-
 app.use((req, res, next) => {
 	const date = new Date();
 	let special_date = false;
@@ -167,33 +134,68 @@ app.use(async (req, res, next) => {
 			console.error("Failed to fetch current user");
 		}
 	}
-	{
-		const now = new Date().toISOString();
-		const query = gql`
-		{
-			allAnnouncements(filter: {and: [
-				{or: [
-					{startAt: {isNull: true}},
-					{startAt: {lessThanOrEqualTo: "${now}"}}
-				]},
-				{or: [
-					{endAt: {isNull: true}},
-					{endAt: {greaterThanOrEqualTo: "${now}"}}
-				]}
-			]}) {
-				nodes { id summary content type }
-			}
+	next();
+});
+
+app.use('/api', postgraphile(process.env.DATABASE_URL, [process.env.DATABASE], {
+	appendPlugins: [
+		PgByteaPlugin,
+		PgManyToManyPlugin,
+		ConnectionFilterPlugin,
+		PostGraphileNestedMutations,
+	],
+	graphileBuildOptions: {
+		nestedMutationsSimpleFieldNames: true,
+		connectionFilterRelations: true,
+	},
+	/*pgSettings: async req => {
+		const settings = {};
+		const { token } = req.signedCookies;
+		if (token) {
+			settings['http.headers.Authorization'] = `Bearer ${token}`;
 		}
-		`;
-		try {
-			const { data } = await res.graphQLClient.rawRequest(query);
-			Object.assign(res, data);
-		} catch (e) {
-			console.error("Failed to fetch announcements");
+		return settings;
+	},*/
+	pgDefaultRole: process.env.PG_DEFAULT_ROLE,
+	ignoreRBAC: false,
+	ignoreIndexes: true,
+	bodySizeLimit: '5MB',
+	dynamicJson: true,
+	graphqlRoute: "/graphql",
+	graphiql: true,
+	enhanceGraphiql: true,
+	graphiqlRoute: "/graphiql",
+	enableQueryBatching: true,
+	jwtSecret: process.env.JWT_SECRET,
+	jwtPgTypeIdentifier: process.env.JWT_TOKEN,
+}));
+
+app.use(async (req, res, next) => {
+	const now = new Date().toISOString();
+	const query = gql`
+	{
+		allAnnouncements(filter: {and: [
+			{or: [
+				{startAt: {isNull: true}},
+				{startAt: {lessThanOrEqualTo: "${now}"}}
+			]},
+			{or: [
+				{endAt: {isNull: true}},
+				{endAt: {greaterThanOrEqualTo: "${now}"}}
+			]}
+		]}) {
+			nodes { id summary content type }
 		}
 	}
+	`;
+	try {
+		const { data } = await res.graphQLClient.rawRequest(query);
+		Object.assign(res, data);
+	} catch (e) {
+		console.error("Failed to fetch announcements");
+	}
 	next();
-})
+});
 
 app.use('/', indexRouter);
 app.use('/about', aboutRouter);

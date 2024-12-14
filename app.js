@@ -75,6 +75,39 @@ for (let i = modules.length - 1 ; i >= 0 ; --i) {
 	}));
 }
 
+app.use('/api', postgraphile(process.env.DATABASE_URL, [process.env.DATABASE], {
+	appendPlugins: [
+		PgByteaPlugin,
+		PgManyToManyPlugin,
+		ConnectionFilterPlugin,
+		PostGraphileNestedMutations,
+	],
+	graphileBuildOptions: {
+		nestedMutationsSimpleFieldNames: true,
+		connectionFilterRelations: true,
+	},
+	/*pgSettings: async req => {
+		const settings = {};
+		const { token } = req.signedCookies;
+		if (token) {
+			settings['http.headers.Authorization'] = `Bearer ${token}`;
+		}
+		return settings;
+	},*/
+	pgDefaultRole: process.env.PG_DEFAULT_ROLE,
+	ignoreRBAC: false,
+	ignoreIndexes: true,
+	bodySizeLimit: '5MB',
+	dynamicJson: true,
+	graphqlRoute: "/graphql",
+	graphiql: true,
+	enhanceGraphiql: true,
+	graphiqlRoute: "/graphiql",
+	enableQueryBatching: true,
+	jwtSecret: process.env.JWT_SECRET,
+	jwtPgTypeIdentifier: process.env.JWT_TOKEN,
+}));
+
 app.use((req, res, next) => {
 	const date = new Date();
 	let special_date = false;
@@ -171,38 +204,7 @@ app.use('/articles', articlesRouter);
 app.use('/novels', novelsRouter);
 app.use('/qpub', qpubRouter);
 
-app.use('/api', postgraphile(process.env.DATABASE_URL, [process.env.DATABASE], {
-	appendPlugins: [
-		PgByteaPlugin,
-		PgManyToManyPlugin,
-		ConnectionFilterPlugin,
-		PostGraphileNestedMutations,
-	],
-	graphileBuildOptions: {
-		nestedMutationsSimpleFieldNames: true,
-		connectionFilterRelations: true,
-	},
-	/*pgSettings: async req => {
-		const settings = {};
-		const { token } = req.signedCookies;
-		if (token) {
-			settings['http.headers.Authorization'] = `Bearer ${token}`;
-		}
-		return settings;
-	},*/
-	pgDefaultRole: process.env.PG_DEFAULT_ROLE,
-	ignoreRBAC: false,
-	ignoreIndexes: true,
-	bodySizeLimit: '5MB',
-	dynamicJson: true,
-	graphqlRoute: "/graphql",
-	graphiql: true,
-	enhanceGraphiql: true,
-	graphiqlRoute: "/graphiql",
-	enableQueryBatching: true,
-	jwtSecret: process.env.JWT_SECRET,
-	jwtPgTypeIdentifier: process.env.JWT_TOKEN,
-}));
+
 
 // 404 handler
 app.use((request, response, next) => {

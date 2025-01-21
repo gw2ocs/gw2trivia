@@ -54,9 +54,9 @@ router.get('/token/callback', function(req, res, next) {
 
 			res.postgresClient.connect();
 			res.postgresClient.query(
-				`INSERT INTO qpub.channels (room_id, name, user_token) VALUES ($1, $2, $3)
-				ON CONFLICT (room_id) DO UPDATE SET name = $2, user_token = $3, invalid_token = FALSE`, 
-				[id, login, access_token]
+				`INSERT INTO qpub.channels (room_id, name, user_token, refresh_token) VALUES ($1, $2, $3, $4)
+				ON CONFLICT (room_id) DO UPDATE SET name = $2, user_token = $3, refresh_token = $4, invalid_token = FALSE`, 
+				[id, login, access_token, refresh_token]
 			).catch(console.error);
 			return res.send('OK');
 		}).catch(console.error);

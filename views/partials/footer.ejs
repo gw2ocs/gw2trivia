@@ -21,6 +21,9 @@
             <li><a href="/about/partners">Partenaires GW2Trivia</a></li>
             <li><a href="/about/projects">Autres projets</a></li>
             <li><a href="/timeline">Chronologie</a></li>
+            <% if (res.req.currentGroup && res.req.currentGroup.isAdmin) { %>
+                <li><a href="/qpub/token">Connecter Bot Twitch</a></li>
+            <% } %>
         </ul>
     </div>
 </footer>

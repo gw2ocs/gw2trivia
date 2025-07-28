@@ -8,7 +8,7 @@ router.get('/token', function(req, res, next) {
 		'chat:read',
 		'chat:edit',
 		'channel:read:redemptions',
-		//'channel:manage:redemptions',
+		'channel:manage:redemptions',
 		//'moderator:manage:announcements',
 	];
 	
@@ -23,9 +23,7 @@ router.get('/token', function(req, res, next) {
 
 /* GET token callback page. */
 router.get('/token/callback', function(req, res, next) {
-	console.log('pouet');
 	const { query } = req;
-	console.log(query);
 	const params = new URLSearchParams({
 		code: query.code,
 		client_id: process.env.TWITCH_CLIENT_ID,

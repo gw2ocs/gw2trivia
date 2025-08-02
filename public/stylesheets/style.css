@@ -420,9 +420,17 @@ sup {
 	color: var(--layout-footer-link-color);
 }
 
-.layout-footer .partner-logo {
-	max-width: 256px;
+.layout-footer .partner-logo-wrapper {
 	filter: drop-shadow(0 0 10px var(--layout-footer-text-shadow));
+}
+
+.layout-footer .partner-logo {
+	width: 256px;
+	height: 30px;
+	background: var(--body-color);
+	mask-image: url(/img/partner.png);
+	mask-size: contain;
+	mask-repeat: no-repeat;
 }
 
 .pagination-container {

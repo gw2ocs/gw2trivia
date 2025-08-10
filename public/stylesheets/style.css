@@ -283,7 +283,7 @@ sup {
 	top: 0;
 	left: 0;
 	right: 0;
-	margin: 2em 4em;
+	margin: 2.5em 4em;
 	z-index: 200;
 }
 
@@ -343,6 +343,17 @@ sup {
 		--alert-background-color: var(--alert-danger-background-color);
 		--alert-color: var(--alert-danger-color);
 		--alert-border: var(--alert-danger-border);
+	}
+
+	&:first-child::before {
+		position: absolute;
+        content: ' ';
+        background-image: url('/ogden2.png');
+        height: 150px;
+        width: 150px;
+        top: 0;
+        right: 40px;
+        transform: translateY(-55%);
 	}
 }
 

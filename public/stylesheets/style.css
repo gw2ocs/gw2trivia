@@ -1170,4 +1170,8 @@ article-container[data-mode=view] li p {
 		align-items: center;
 		text-align: center;
 	}
+
+	.partner-logo {
+		margin: auto;
+	}
 }

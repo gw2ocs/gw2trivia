@@ -1,6 +1,6 @@
 /* TEAM */
 	Pandraghon#3647
-	Twitter: @pandraghon
+	Github: Pandraghon
 	Location: Mulhouse, France
 
 /* THANKS */
@@ -29,4 +29,3 @@
 	Last update: today or yesterday, probably
 	Language: French
 	Doctype: HTML5
-	IDE: IntelliJ IDEA, Neovim, GIMP

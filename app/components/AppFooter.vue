@@ -1,0 +1,29 @@
+<template>
+    <footer class="layout-footer">
+        <div>
+            <div class="partner-logo-wrapper"><div class="partner-logo" title="Partenaire ArenaNet"></div></div>
+            <p>Made with <i class="gw2-karma"></i> by <strong>Pandraghon#3647</strong>.</p>
+            <p>Icons and background are © ArenaNet, Inc. All rights reserved.</p>
+            <p>Vous voulez acheter le jeu, une extension ou vous créer un compte secondaire ? Vous pouvez utiliser notre <a href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=741" rel="noreferrer" target="_blank">lien partenaire</a> pour nous soutenir.</p>
+            <p>Un problème ou une question ? Créez un nouveau <a href="https://github.com/gw2ocs/gw2trivia/issues" rel="noreferrer" target="_blank"><i class="mdi mdi-github" aria-hidden="true"></i> ticket</a> ou venez en parler sur le <a href="https://discord.gg/YpcMnDY" rel="noreferrer" target="_blank"><i class="mdi mdi-discord" aria-hidden="true"></i> Discord</a> de Questions pour un Quaggan dans le channel #support.</p>
+        </div>
+        <div>
+            <ul>
+                <li><a href="https://discord.gg/EWAzDQN" rel="noreferrer" target="_blank"><i class="mdi mdi-discord" title="Discord de Questions pour un Quaggan"></i>&nbsp;EWAzDQN</a></li>
+                <li><a href="https://twitter.com/Gw2Trivia" rel="noreferrer" target="_blank"><i class="mdi mdi-twitter" aria-hidden="true"></i>&nbsp;@Gw2Trivia</a></li>
+                <li><a href="https://www.twitch.tv/questionspourunquaggan" rel="noreferrer" target="_blank"><i class="mdi mdi-twitch" aria-hidden="true"></i>&nbsp;questionspourunquaggan</a></li>
+                <li><a href="https://www.youtube.com/channel/UChpW1puaBfG3pioIhUe7QCg" rel="noreferrer" target="_blank"><i class="mdi mdi-youtube" aria-hidden="true"></i>&nbsp;GW2Trivia</a></li>
+                <li><a rel="me" href="https://mastodon.social/@gw2trivia" target="_blank"><i class="mdi mdi-mastodon" aria-hidden="true"></i>&nbsp;Mastodon</a></li>
+                <li><a rel="noreferrer" href="https://linktr.ee/gw2trivia" target="_blank"><i class="mdi mdi-link" aria-hidden="true"></i>&nbsp;Linktree</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li><NuxtLink to="/about/legal">Mentions légales</NuxtLink></li>
+                <li><NuxtLink to="/about/support">Soutenir GW2Trivia</NuxtLink></li>
+                <li><NuxtLink to="/about/partners">Partenaires GW2Trivia</NuxtLink></li>
+                <li><NuxtLink to="/about/projects">Autres projets</NuxtLink></li>
+            </ul>
+        </div>
+    </footer>
+</template>

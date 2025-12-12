@@ -1,0 +1,30 @@
+<script setup lang="ts">
+  useSchemaOrg([
+    defineWebSite({
+      potentialAction: [
+        defineSearchAction({
+          target: '/questions?title={search_term_string}',
+        })
+      ],
+    })
+  ])
+</script>
+
+<template>
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
+</template>
+
+<style>
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+</style>

@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { defineOrganization, defineWebSite } from 'nuxt-schema-org/schema';
+import "dotenv/config";
+import { defineOrganization } from 'nuxt-schema-org/schema';
 
 export default defineNuxtConfig({
   app: {
@@ -21,9 +22,29 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxtjs/seo',
+    '@nuxtjs/i18n',
+    '@nuxt/ui',
   ],
+  css: ['~/assets/css/main.css'],
+  experimental: {
+    scanPageMeta: true,
+  },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  i18n: {
+    defaultLocale: 'en',
+    strategy: 'prefix',
+    locales: [
+      { code: 'en', file: 'en.js', name: 'English' },
+      { code: 'fr', file: 'fr.js', name: 'Français' },
+      { code: 'de', file: 'de.js', name: 'Deutsch' },
+      { code: 'es', file: 'es.js', name: 'Español' },
+    ],
+    compilation: {
+      strictMessage: false,
+      escapeHtml: false,
+    }
+  },
   site: {
     title: 'GW2Trivia',
     description: 'Tester vos connaissances sur l\'univers de Guild Wars en participant à Questions pour un Quaggan, un jeu présenté par Ogden Guéripierre.',
@@ -34,6 +55,6 @@ export default defineNuxtConfig({
     identity: defineOrganization({
       name: 'GW2Trivia',
       logo: '/img/icon_180.png',
-    })
+    }),
   },
 });

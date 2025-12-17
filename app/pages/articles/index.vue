@@ -1,5 +1,18 @@
+<script setup lang="ts">
+    const { locales, t } = useI18n();
+    const setI18nParams = useSetI18nParams()
+    setI18nParams(
+        locales.value.reduce((acc, locale) => {
+            acc[locale.code] = { path: t('articles.page.path', {}, { locale: locale.code }) };
+            return acc;
+        }, {} as Record<string, object>),
+    )
+</script>
+
 <template>
-    <main>
-        <h2>Articles</h2>
-    </main>
+    <UMain as="main">
+        <UContainer as="article">
+            <h2>{{ t('articles.page.title') }}</h2>
+        </UContainer>
+    </UMain>
 </template>

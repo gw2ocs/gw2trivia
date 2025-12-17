@@ -1,6 +1,17 @@
+<script setup lang="ts">
+    const { locales, t } = useI18n();
+    const setI18nParams = useSetI18nParams()
+    setI18nParams(
+        locales.value.reduce((acc, locale) => {
+            acc[locale.code] = { path: t('about.support.page.path', {}, { locale: locale.code }) };
+            return acc;
+        }, {} as Record<string, object>),
+    )
+</script>
+
 <template>
-    <main class="layout-main">
-		<article class="layout-block page">
+    <UMain as="main">
+		<UContainer as="article" class="layout-block page">
             <h2>Soutenir GW2Trivia</h2>
 
             <p>Vous souhaitez soutenir ces pauvres Draguerres qui travaillent jours et nuits dans leurs grottes afin de maintenir ce projet (le site GW2Trivia, le Discord Questions pour un Quaggan, le bot Ogden Guéripierre) ?</p>
@@ -36,6 +47,6 @@
 
 
             <p class="secondary-data">Aucun Draguerre n'a été maltraité durant la production de ce projet.</p>
-		</article>
-    </main>
+		</UContainer>
+    </UMain>
 </template>

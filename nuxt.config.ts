@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
     '@nuxtjs/i18n',
     '@nuxt/ui',
+    '@nuxt/content',
   ],
   css: ['~/assets/css/main.css'],
   experimental: {
@@ -31,7 +32,9 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  debug: true,
   i18n: {
+    baseUrl: 'https://gw2trivia.com',
     defaultLocale: 'en',
     strategy: 'prefix',
     locales: [
@@ -44,6 +47,9 @@ export default defineNuxtConfig({
       strictMessage: false,
       escapeHtml: false,
     }
+  },
+  content: {
+    experimental: { sqliteConnector: 'native' },
   },
   site: {
     title: 'GW2Trivia',

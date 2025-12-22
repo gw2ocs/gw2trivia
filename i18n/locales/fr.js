@@ -14,11 +14,8 @@ export default {
     Tu souhaites participer à ce jeu ? Rejoins-nous sur le Discord de <a href="https://discord.gg/YpcMnDY" rel="noreferrer" target="_blank">Questions pour un Quaggan</a>.
 </p>
 <p>
-    Grâce à mes amis de toutes les races, j'ai actuellement recueilli <span id="question-count"></span>
-    questions.<br/>
-    Tu désires soumettre une nouvelle question ? Rien de plus simple, il suffit de <a href="/login">s'identifier
-    avec son compte Discord</a> et d'aller dans la section des <a href="/questions/suggestions">
-    suggestions</a>.
+    Grâce à mes amis de toutes les races, j'ai actuellement recueilli <span id="question-count">{ questionsCount }</span> questions.<br/>
+    Tu désires soumettre une nouvelle question ? Rien de plus simple, il suffit de <a href="/login">s'identifier avec son compte Discord</a> et d'aller dans la section des <a href="/questions/suggestions">suggestions</a>.
 </p>`,
     },
     questions: {

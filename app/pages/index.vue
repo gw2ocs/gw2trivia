@@ -30,8 +30,7 @@ const links = ref([
                 <img src="/img/ogden.png" alt="Ogden Guéripierre" title="Ogden Guéripierre" height="400px" width="261px"
                     loading="lazy"/>
             </section>
-            <section>{{ questionsCount }}</section>
-            <section class="home-dialogue" v-html="$t('home.welcome_message', {}, { escapeParameter: false })">
+            <section class="home-dialogue" v-html="$t('home.welcome_message', { questionsCount }, { escapeParameter: false })">
             </section>
         </UContainer>
     </UMain>

@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import * as locales from '@nuxt/ui/locale';
 import type { FooterColumn } from '@nuxt/ui';
+import type { ContentNavigationItem } from '@nuxt/content';
+import { findPageChildren } from '@nuxt/content/utils';
 
 const { t, locale, setLocale, locales: availableLocales } = useI18n();
 const availableLocalesCodes = availableLocales.value.map(l => l.code.toString());
 const filteredLocales = Object.values(locales).filter(l => availableLocalesCodes.includes(l.code));
-const localePath = useLocalePath();
+
+const navigation = inject<Ref<ContentNavigationItem[]>>('navigation');
 
 const columns = computed<FooterColumn[]>(() => [
   {
-    label: 'Social',
+    label: t('footer.social'),
     children: [
       {
         label: 'EWAzDQN',
@@ -51,25 +54,12 @@ const columns = computed<FooterColumn[]>(() => [
     ]
   },
   {
-    label: 'About',
-    children: [
-      {
-        label: t('about.legal.page.title'),
-        to: localePath('about-legal'),
-      },
-      {
-        label: t('about.support.page.title'),
-        to: localePath('about-support'),
-      },
-      {
-        label: t('about.partners.page.title'),
-        to: localePath('about-partners'),
-      },
-      {
-        label: t('about.projects.page.title'),
-        to: localePath('about-projects'),
-      }
-    ]
+    label: t('footer.about'),
+    children: findPageChildren(navigation?.value, `/${locale.value}/about`)
+      .map(item => ({
+        label: item.title,
+        to: item.path,
+      })) || []
   }
 ]);
 </script>

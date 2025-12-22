@@ -50,40 +50,27 @@ useSeoMeta(page.value.seo)
   }
 })*/
 
-//const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
-
-const { data: navigation } = await useAsyncData('page-' + slug.value + '-navigation', async () => {
-  // Build collection name based on current locale
-  const collection = ('content_' + locale.value) as keyof Collections
-  const navigation = await queryCollectionNavigation(collection)
-
-  // Optional: fallback to default locale if content is missing
-  if (!navigation && locale.value !== 'en') {
-    return await queryCollectionNavigation('content_en')
-  }
-
-  return navigation
-}, {
-  watch: [locale], // Refetch when locale changes
-})
+const navigation = inject<Ref<ContentNavigationItem[]>>('navigation')
 </script>
 
 <template>
-    <UPage v-if="page">
-        <UPageHeader :title="page.title" />
+    <UMain as="main">
+      <UPage v-if="page">
+          <UPageHeader :title="page.title" />
 
-        <template #left>
-            <UPageAside>
-                <UContentNavigation :navigation="navigation" highlight />
-            </UPageAside>
-        </template>
+          <template #left>
+              <UPageAside>
+                  <UContentNavigation :navigation="navigation" highlight number="1" />
+              </UPageAside>
+          </template>
 
-        <UPageBody>
-            <ContentRenderer v-if="page.body" :value="page.body" />
-        </UPageBody>
+          <UPageBody>
+              <ContentRenderer v-if="page.body" :value="page.body" />
+          </UPageBody>
 
-        <template v-if="page?.body?.toc?.links?.length" #right>
-            <UContentToc :links="page.body.toc.links" />
-        </template>
-    </UPage>
+          <template v-if="page?.body?.toc?.links?.length" #right>
+              <UContentToc :links="page.body.toc.links" />
+          </template>
+      </UPage>
+    </UMain>
 </template>

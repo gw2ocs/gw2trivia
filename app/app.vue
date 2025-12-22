@@ -8,6 +8,7 @@
       ],
     })
   ]);
+import type { Collections } from '@nuxt/content';
 import * as locales from '@nuxt/ui/locale';
 
 const { locale } = useI18n();
@@ -21,6 +22,22 @@ useHead({
     dir
   }
 });
+const { data: navigation } = await useAsyncData('page-' + locale.value + '-navigation', async () => {
+  // Build collection name based on current locale
+  const collection = ('content_' + locale.value) as keyof Collections
+  const navigation = await queryCollectionNavigation(collection)
+
+  // Optional: fallback to default locale if content is missing
+  if (!navigation && locale.value !== 'en') {
+    return await queryCollectionNavigation('content_en')
+  }
+
+  return navigation
+}, {
+  watch: [locale], // Refetch when locale changes
+})
+
+provide('navigation', navigation)
 </script>
 
 <template>

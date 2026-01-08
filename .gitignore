@@ -4,6 +4,7 @@
 .nuxt
 .nitro
 .cache
+.drizzle
 dist
 
 # IDE files

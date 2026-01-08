@@ -23,6 +23,14 @@ export default {
             title: "Questions",
             path: "/questions",
         },
+        columns: {
+            title: "Titre",
+            category: "Catégorie",
+            points: "Points",
+            images: "Images",
+            author: "Auteur",
+            createdAt: "Créée le",
+        },
     },
     articles: {
         page: {
@@ -65,5 +73,8 @@ export default {
     footer: {
         about: "À propos",
         social: "Réseaux sociaux",
+    },
+    ui: {
+        columns: "Colonnes",
     }
 };

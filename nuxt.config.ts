@@ -21,10 +21,11 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
   },
   modules: [
-    '@nuxtjs/seo',
-    '@nuxtjs/i18n',
-    '@nuxt/ui',
-    '@nuxt/content',
+    '@nuxtjs/seo', 
+    '@nuxtjs/i18n', 
+    '@nuxt/ui', 
+    '@nuxt/content', 
+    '@nuxthub/core',
   ],
   css: ['~/assets/css/main.css'],
   experimental: {
@@ -50,6 +51,13 @@ export default defineNuxtConfig({
   },
   content: {
     experimental: { sqliteConnector: 'native' },
+  },
+  hub: {
+    db: {
+      dialect: 'postgresql',
+      casing: 'snake_case',
+      
+    },
   },
   site: {
     title: 'GW2Trivia',

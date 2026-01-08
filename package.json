@@ -20,13 +20,18 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.3.14",
     "@nuxt/content": "^3.9.0",
     "@nuxt/ui": "^4.2.1",
+    "@nuxthub/core": "0.10.3",
     "@nuxtjs/i18n": "^10.2.1",
     "@nuxtjs/seo": "^3.3.0",
     "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.31.8",
+    "drizzle-orm": "^0.45.1",
     "nuxt": "4.2.1",
     "pg": "^8.16.3",
+    "postgres": "^3.4.7",
     "vue": "3.5.25",
     "vue-router": "4.6.3"
   },

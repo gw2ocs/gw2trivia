@@ -11,17 +11,7 @@
 import type { Collections } from '@nuxt/content';
 import * as locales from '@nuxt/ui/locale';
 
-const { locale } = useI18n();
-
-const lang = computed(() => locales[locale.value].code);
-const dir = computed(() => locales[locale.value].dir);
-
-useHead({
-  htmlAttrs: {
-    lang,
-    dir
-  }
-});
+const { locale, t } = useI18n();
 const { data: navigation } = await useAsyncData('page-' + locale.value + '-navigation', async () => {
   // Build collection name based on current locale
   const collection = ('content_' + locale.value) as keyof Collections

@@ -33,7 +33,12 @@ export default eventHandler(async event => {
                 with: {
                     image: true,
                 }
-            }
+            },
+            categoriesQuestionsRels: {
+                with: {
+                    category: true,
+                }
+            },
         },
         ...options,
     });

@@ -25,13 +25,14 @@ const links = ref([
             description="Jeu de culture générale sur l'univers de Guild Wars."
             :links="links"
         />
-        <UContainer as="article" class="home-introduction">
-            <section class="home-ogden">
-                <img src="/img/ogden.png" alt="Ogden Guéripierre" title="Ogden Guéripierre" height="400px" width="261px"
-                    loading="lazy"/>
-            </section>
-            <section class="home-dialogue" v-html="$t('home.welcome_message', { questionsCount }, { escapeParameter: false })">
-            </section>
-        </UContainer>
+        <UPageSection
+          orientation="horizontal"
+          reverse>
+          <template #description>
+            <div v-html="$t('home.welcome_message', { questionsCount }, { escapeParameter: false })"></div>
+          </template>
+          <img src="/img/ogden.png" alt="Ogden Guéripierre" title="Ogden Guéripierre" height="400px" width="261px"
+                    style="margin: auto" loading="lazy"/>
+        </UPageSection>
     </UMain>
 </template>

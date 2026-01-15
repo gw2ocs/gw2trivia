@@ -4,11 +4,17 @@ import { schema } from 'hub:db';
 export type User = typeof schema.users.$inferSelect;
 export type Tip = typeof schema.tips.$inferSelect;
 export type Image = typeof schema.images.$inferSelect;
+export type Answer = typeof schema.answers.$inferSelect;
+export type Category = typeof schema.categories.$inferSelect;
 export type Question = typeof schema.questions.$inferSelect & {
     user?: User,
     tips?: Tip[],
+    answers?: Answer[],
     imagesQuestionsRels?: {
         image: Image
+    }[],
+    categoriesQuestionsRels?: {
+        category: Category
     }[],
 };
 

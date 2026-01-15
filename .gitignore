@@ -23,6 +23,11 @@ logs
 # Misc
 .DS_Store
 
+# Filestore
+**/filestore/**
+!**/filestore/**/
+!.gitkeep
+
 # Local env files
 .env
 .env.*

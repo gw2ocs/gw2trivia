@@ -76,5 +76,19 @@ export default {
     },
     ui: {
         columns: "Columns",
-    }
+        actions: "Actions",
+    },
+    actions: {
+        copy_title: "Copy title",
+        copy_link: "Copy link",
+        view: "View",
+        edit: "Edit",
+        delete: "Delete",
+        publish: "Publish",
+        unpublish: "Unpublish",
+    },
+    toasts: {
+        title_copied: "Title copied to clipboard",
+        link_copied: "Link copied to clipboard",
+    },
 };

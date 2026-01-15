@@ -76,5 +76,19 @@ export default {
     },
     ui: {
         columns: "Colonnes",
-    }
+        actions: "Actions",
+    },
+    actions: {
+        copy_title: "Copier le titre",
+        copy_link: "Copier le lien",
+        view: "Voir",
+        edit: "Modifier",
+        delete: "Supprimer",
+        publish: "Publier",
+        unpublish: "Dépublier",
+    },
+    toasts: {
+        title_copied: "Titre copié dans le presse-papier",
+        link_copied: "Lien copié dans le presse-papier",
+    },
 };

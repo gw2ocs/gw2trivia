@@ -22,6 +22,7 @@
   "dependencies": {
     "@electric-sql/pglite": "^0.3.14",
     "@nuxt/content": "^3.9.0",
+    "@nuxt/image": "2.0.0",
     "@nuxt/ui": "^4.2.1",
     "@nuxthub/core": "0.10.3",
     "@nuxtjs/i18n": "^10.2.1",

@@ -6,6 +6,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'GW2Trivia',
+      titleTemplate: '%s %separator %siteName',
+      templateParams: { siteName: 'GW2Trivia', separator: '|' },
       link: [{
         rel: 'icon',
         type: 'image/x-icon',
@@ -25,7 +27,8 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n', 
     '@nuxt/ui', 
     '@nuxt/content', 
-    '@nuxthub/core',
+    '@nuxthub/core', 
+    '@nuxt/image'
   ],
   css: ['~/assets/css/main.css'],
   experimental: {
@@ -33,7 +36,7 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  debug: true,
+  debug: false,
   i18n: {
     baseUrl: 'https://gw2trivia.com',
     defaultLocale: 'en',

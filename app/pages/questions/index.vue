@@ -1,8 +1,12 @@
 <script setup lang="ts">
-    import { getPaginationRowModel, getSortedRowModel, type Column } from '@tanstack/vue-table';
-    import type { TableColumn } from '@nuxt/ui';
+    import { type Column } from '@tanstack/vue-table';
+    import type { DropdownMenuItem, TableColumn } from '@nuxt/ui';
+    import { useClipboard } from '@vueuse/core';
+    const { copy } = useClipboard();
+    const toast = useToast();
     const { locales, t } = useI18n();
     const setI18nParams = useSetI18nParams();
+
     setI18nParams(
         locales.value.reduce((acc, locale) => {
             acc[locale.code] = { path: t('questions.page.path', {}, { locale: locale.code }) };
@@ -10,60 +14,58 @@
         }, {} as Record<string, object>),
     );
 
+    useSeoMeta({
+        title: t('questions.page.title'),
+        description: t('questions.page.description')
+    })
+
     const UUser = resolveComponent('UUser');
     const UButton = resolveComponent('UButton');
     const UDropdownMenu = resolveComponent('UDropdownMenu');
 
     const table = useTemplateRef('table');
 
-    const columns: TableColumn<Question>[] = [
-        {
-            header: ({ column }) => getHeader(column, t('questions.columns.points')),
-            enableColumnFilter: true,
-            accessorKey: 'points',
-        },
-        {
-            header: ({ column }) => getHeader(column, t('questions.columns.title')),
-            enableColumnFilter: true,
-            accessorKey: 'title',
-        },
-        {
-            header: ({ column }) => getHeader(column, t('questions.columns.images')),
-            accessorKey: 'images',
-            cell: ({ row }) => row.original.imagesQuestionsRels?.length ? h(UButton, {
-                color: 'neutral',
-                variant: 'ghost',
-                icon: 'i-lucide-image',
-                square: true,
-                'aria-label': t('questions.columns.images'),
-                onClick: () => row.toggleExpanded(),
-            }) : null,
-        },
-        {
-            header: ({ column }) => getHeader(column, t('questions.columns.createdAt')),
-            accessorKey: 'createdAt',
-            cell: (info) => new Date(info.getValue<string>()).toLocaleDateString(),
-        },
-        {
-            header: ({ column }) => getHeader(column, t('questions.columns.author')),
-            accessorKey: 'user',
-            cell: ({ row }) => h(UUser, {
-                name: row.original.user?.username || 'Unknown User',
-                avatar: {
-                    src: `https://cdn.discordapp.com/avatars/${row.original.user?.discordId || ''}/${row.original.user?.avatar || ''}.png`,
-                    alt: row.original.user?.username || 'User Avatar',
-                    rounded: 'full',
-                }
-            }),
-        },
-    ];
+    const columns: TableColumn<Question>[] = [{
+        header: ({ column }) => getHeader(column, t('questions.columns.points')),
+        accessorKey: 'points',
+        size: 32,
+    }, {
+        header: ({ column }) => getHeader(column, t('questions.columns.title')),
+        accessorKey: 'title',
+    }, {
+        header: ({ column }) => getHeader(column, t('questions.columns.images')),
+        accessorKey: 'images',
+        cell: ({ row }) => row.original.imagesQuestionsRels?.length ? h(UButton, {
+            color: 'neutral',
+            variant: 'ghost',
+            icon: 'i-lucide-image',
+            square: true,
+            'aria-label': t('questions.columns.images'),
+            onClick: () => row.toggleExpanded(),
+        }) : null,
+    }, {
+        header: ({ column }) => getHeader(column, t('questions.columns.createdAt')),
+        accessorKey: 'createdAt',
+        cell: (info) => new Date(info.getValue<string>()).toLocaleDateString(),
+    }, {
+        header: ({ column }) => getHeader(column, t('questions.columns.author')),
+        accessorKey: 'user',
+        cell: ({ row }) => h(UUser, {
+            name: row.original.user?.username || 'Unknown User',
+            avatar: {
+                src: `https://cdn.discordapp.com/avatars/${row.original.user?.discordId || ''}/${row.original.user?.avatar || ''}.png`,
+                alt: row.original.user?.username || 'User Avatar',
+                rounded: 'full',
+            }
+        }),
+    }, {
+        id: 'action'
+    }];
 
     function getHeader(column: Column<Question>, label: string) {
         const isSorted = column.getIsSorted()
 
-        return h(
-            UDropdownMenu,
-            {
+        return h(UDropdownMenu, {
             content: {
                 align: 'start'
             },
@@ -113,6 +115,49 @@
         )
     }
 
+    function getDropdownActions(question: Question): DropdownMenuItem[] {
+        return [
+            [{
+                label: t('actions.copy_title'),
+                icon: 'i-lucide-copy',
+                onSelect: () => {
+                    copy(question.title);
+                    toast.add({
+                        title: t('toasts.title_copied'),
+                        color: 'success',
+                        icon: 'i-lucide-circle-check',
+                    });
+                }
+            },
+            {
+                label: t('actions.copy_link'),
+                icon: 'i-lucide-link',
+                onSelect: () => {
+                    copy(`${window.location.origin}/questions/${question.id}/${question.slug}`);
+                    toast.add({
+                        title: t('toasts.link_copied'),
+                        color: 'success',
+                        icon: 'i-lucide-circle-check',
+                    });
+                }
+            }], [{
+                label: t('actions.view'),
+                icon: 'i-lucide-eye',
+                href: `/questions/${question.id}/${question.slug}`
+            }, {
+                label: t('actions.edit'),
+                icon: 'i-lucide-edit',
+                href: `/questions/${question.id}/edit`
+            }, {
+                label: t('actions.delete'),
+                icon: 'i-lucide-trash',
+                color: 'error',
+                href: `/questions/${question.id}/delete`
+            }]
+        ];
+
+    }
+
     const pagination = ref({
         pageIndex: 0,
         pageSize: 10
@@ -131,7 +176,7 @@
 
     const { data, status, error, execute } = await useFetch<{ questions: Question[], count: number }>('/api/questions',
         {
-            key: 'table-qestions',
+            key: 'table-questions',
             params: { pagination, sorting },
             lazy: false,
             immediate: false
@@ -189,6 +234,33 @@
             >
                 <template #expanded="{ row }">
                     <pre>{{ row.original }}</pre>
+                </template>
+                <template #title-cell="{ row }">
+                    <div>
+                        <NuxtLink :to="`/questions/${row.original.id}/${row.original.slug}`" :title="row.original.title" class="text-base text-pretty hover:text-highlighted">
+                            {{ row.original.title.length > 75 ? row.original.title.slice(0, 75) + '...' : row.original.title }}
+                        </NuxtLink>
+                        <br />
+                        <UBadge
+                            v-for="rel in row.original.categoriesQuestionsRels"
+                            :key="rel.category.id"
+                            :label="rel.category.name"
+                            color="primary"
+                            variant="outline"
+                            size="sm"
+                            class="mr-1"
+                        />
+                    </div>
+                </template>
+                <template #action-cell="{ row }">
+                    <UDropdownMenu :items="getDropdownActions(row.original)">
+                        <UButton
+                        icon="i-lucide-ellipsis-vertical"
+                        color="neutral"
+                        variant="ghost"
+                        aria-label="Actions"
+                        />
+                    </UDropdownMenu>
                 </template>
             </UTable>
             <UPagination
